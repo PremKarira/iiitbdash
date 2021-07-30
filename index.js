@@ -19,7 +19,7 @@ client.on("message", message => {
 
     if (message.content.includes("@here") || message.content.includes("@everyone")) return false;
 
-    if (message.mentions.has(client.user.id)) {
+    if (message.mentions.has(client.user)) {
         message.channel.send("Hello there!");
         message.channel.send(`🏓Latency is ${Date.now() - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`);
     };
