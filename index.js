@@ -1,6 +1,10 @@
 const Discord = require("discord.js")
 const client = new Discord.Client()
 
+
+//test comment
+
+
 // const randomBetween = (min, max) => Math.floor(Math.random()*(max-min+1)+min);
 // const color = [
 //   randomBetween(0, 255),
