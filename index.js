@@ -1,4 +1,5 @@
 const Discord = require("discord.js")
+const config = require('./config.json')
 const client = new Discord.Client()
 // const randomBetween = (min, max) => Math.floor(Math.random()*(max-min+1)+min);
 // const color = [
@@ -16,7 +17,7 @@ client.on("ready", () => {
 client.on("message", message => {
     if (message.author.bot) return false;
     if (message.content.includes("@here") || message.content.includes("@everyone")) return false;
-    if (message.mentions.has(client.user) && message.content === '<@843537329591418932>') {
+    if (message.content === '<@843537329591418932>') {
         message.channel.send("Hello there!");
         message.channel.send(`🏓Latency is ${Date.now() - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`);
     };
@@ -68,7 +69,7 @@ client.on('message', message => {
 // });
 
 client.on('message', message => {
-  if (message.content.startsWith('ping ') ) {
+  if (message.content.startsWith('/ping ') ) {
     if (!message.channel.name.includes("class-links")) message.channel.send('do this command only at <#868036126890426368>');
     else {
       let link = message.content.replace('ping', '')
@@ -106,13 +107,13 @@ client.on('message', message => {
         }).catch(() => {
                 message.reply('No answer after 30 seconds, operation canceled.');
         });
-      let em = new Discord.MessageEmbed();
-      em.setTitle("Click here to join the meeting")
+      let emb = new Discord.MessageEmbed();
+      emb.setTitle("Click here to join the meeting")
       // em.setDescription("1.ECE \n 2.CSE \n 3.IT \n 4. CSE & IT \n 5. ALL")
-      em.setURL(link)
-      em.setColor('RANDOM')
-      em.setFooter("attendance ke liye hi join krlo...")
-      message.channel.send(em)
+      emb.setURL(link)
+      emb.setColor('RANDOM')
+      emb.setFooter("attendance ke liye hi join krlo...")
+      message.channel.send(emb)
     }
   }
 });
