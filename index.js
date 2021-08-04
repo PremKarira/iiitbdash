@@ -1,5 +1,5 @@
 const Discord = require("discord.js")
-const config = require('./config.json')
+// const config = require('./config.json')
 const client = new Discord.Client()
 // const randomBetween = (min, max) => Math.floor(Math.random()*(max-min+1)+min);
 // const color = [
