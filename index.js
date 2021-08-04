@@ -69,10 +69,10 @@ client.on('message', message => {
 // });
 
 client.on('message', message => {
-  if (message.content.startsWith(':ping ') ) {
+  if (message.content.startsWith('::ping ') ) {
     if (!message.channel.name.includes("class-links")) message.channel.send('do this command only at <#868036126890426368>');
     else {
-      let link = message.content.replace('ping', '')
+      let link = message.content.replace('::ping ', '')
       // message.channel.send('anonymous confession has been submitted. Destination <#843571449641304084>')
       let em = new Discord.MessageEmbed();
       em.setTitle("Which branch you want to ping?")
@@ -83,23 +83,23 @@ client.on('message', message => {
       message.channel.awaitMessages(m => m.author.id == message.author.id,
         {max: 1, time: 30000}).then(collected => {
                 if (collected.first().content.toLowerCase() == '1') {
-                  message.reply('<@&824984224330416191>');
+                  message.channel.send('<@&824984224330416191>');
                   // client.destroy();
                 }
                 if (collected.first().content.toLowerCase() == '2') {
-                  message.reply('<@&824974978784690198>');
+                  message.channel.send('<@&824974978784690198>');
                   // client.destroy();
                 }
                 if (collected.first().content.toLowerCase() == '3') {
-                  message.reply('<@&824984226885402674>');
+                  message.channel.send('<@&824984226885402674>');
                   // client.destroy();
                 }
                 if (collected.first().content.toLowerCase() == '4') {
-                  message.reply('<@&824974978784690198> & <@&824984226885402674>');
+                  message.channel.send('<@&824974978784690198> & <@&824984226885402674>');
                   // client.destroy();
                 }
                 if (collected.first().content.toLowerCase() == '5') {
-                  message.reply('<@&824984224330416191> & <@&824974978784690198> & <@&824984226885402674>');
+                  message.channel.send('<@&824984224330416191> & <@&824974978784690198> & <@&824984226885402674>');
                   // client.destroy();
                 }
                 else
