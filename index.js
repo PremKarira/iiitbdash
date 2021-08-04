@@ -49,6 +49,41 @@ client.on('message', message => {
   }
 });
 
+client.on('message', message => {
+  if (message.content === '-tt') {
+    message.channel.send('Wait for my reply')
+      .then(msg => {
+        msg.delete({ timeout: 15000 /*time unitl delete in milliseconds*/});
+      })
+      .catch(/*Your Error handling if the Message isn't returned, sent, etc.*/);
+    let emb1 = new Discord.MessageEmbed();
+    let emb2 = new Discord.MessageEmbed();
+    let emb3 = new Discord.MessageEmbed();
+    
+    emb1.setTitle("ECE Time-Table")
+    emb1.setColor('RANDOM')
+    emb1.setFooter("type -cs for more commands")
+    emb1.setTimestamp()
+    emb1.setImage('https://images-ext-1.discordapp.net/external/07lpSzm4rSwjBupYrLo7xPPgfvOnLoPuFRePz6uzZQI/https/media.discordapp.net/attachments/816314803387367466/871396995191930891/Frame_10ECE_1.png?width=1259&height=669')
+    
+    emb2.setTitle("CSE Time-Table")
+    emb2.setColor('RANDOM')
+    emb2.setFooter("type -cs for more commands")
+    emb2.setTimestamp()
+    emb2.setImage('https://images-ext-1.discordapp.net/external/1I7lpfmOrmrnfaMYlgDOzXVi0N2Sc1q8bt0wWzJwOBw/https/media.discordapp.net/attachments/816314803387367466/871396996488003604/Frame_10CSE_1.png?width=1259&height=669')
+    
+    emb3.setTitle("IT Time-Table")
+    emb3.setColor('RANDOM')
+    emb3.setFooter("type -cs for more commands")
+    emb3.setTimestamp()
+    emb3.setImage('https://images-ext-2.discordapp.net/external/gJyCVUXLVrk9ZtSK6RvnHjoJ40l-e7pQ3wOQc-zag6Y/https/media.discordapp.net/attachments/816314803387367466/872181270380167218/Frame_59IT.png?width=1426&height=670')
+    
+    client.channels.cache.get('843571449641304084').send(emb1)
+    client.channels.cache.get('843571449641304084').send(emb2)
+    client.channels.cache.get('843571449641304084').send(emb3)
+  }
+});
+
 // client.on('message', message => {
 //   if (message.content.startsWith('crazytest')) {
 //     // message.delete()
