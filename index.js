@@ -18,8 +18,10 @@ client.on("message", message => {
     if (message.author.bot) return false;
     if (message.content.includes("@here") || message.content.includes("@everyone")) return false;
     // if (message.mentions.has(client.user) && message.content === '<@843537329591418932>') {
-    if (message.content === '<@843537329591418932>') {
+    if (message.content === '<@843537329591418932>' || message.content === '<@!843537329591418932>') {
         message.channel.send("Hello there!");
+        // const vaaa=message.content
+        // message.channel.send(vaaa)
         message.channel.send(`🏓Latency is ${Date.now() - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`);
     };
 });
@@ -172,3 +174,4 @@ client.on('message', message => {
 });
 
 client.login(process.env.TOKEN)
+// client.login(config.token)
