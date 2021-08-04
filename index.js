@@ -1,10 +1,5 @@
 const Discord = require("discord.js")
 const client = new Discord.Client()
-
-
-//test comment
-
-
 // const randomBetween = (min, max) => Math.floor(Math.random()*(max-min+1)+min);
 // const color = [
 //   randomBetween(0, 255),
@@ -20,9 +15,7 @@ client.on("ready", () => {
 
 client.on("message", message => {
     if (message.author.bot) return false;
-
     if (message.content.includes("@here") || message.content.includes("@everyone")) return false;
-
     if (message.mentions.has(client.user) && message.content === '<@843537329591418932>') {
         message.channel.send("Hello there!");
         message.channel.send(`🏓Latency is ${Date.now() - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`);
@@ -31,7 +24,6 @@ client.on("message", message => {
 
 client.on('message', message => {
   if (message.content.startsWith('confess ') && (message.channel.type === "dm")) {
-    
     let newmsg = message.content.replace('confess', '')
     message.channel.send('anonymous confession has been submitted. Destination <#843571449641304084>')
     let em = new Discord.MessageEmbed();
@@ -53,29 +45,8 @@ client.on('message', message => {
     emb.setFooter("Use img <URL> in my dms to post an image anonymously!")
     emb.setImage(msg)
     client.channels.cache.get('843571449641304084').send(emb)
-    // client.channels.cache.get('843571449641304084').send(msg)
   }
 });
-
-// client.on('message', message => {
-//   if (message.content.startsWith('link ') && (message.author.id ==='428902961847205899')) {
-//     let msg = message.content.replace('link', '')
-//     let emb = new Discord.MessageEmbed();
-//     emb.setTitle("Award ceremony")
-//     emb.setURL(msg)
-//     emb.setDescription("I am watching you")
-//     emb.setColor('RANDOM')
-//     client.channels.cache.get('843571449641304084').send(emb)
-
-//     let em = new Discord.MessageEmbed();
-//     em.setTitle("I am Back")
-//     em.setDescription("[Dont troll](https://play.chess.com/qbfH6)")
-//     em.setDescription("Use confess <confession> in my dms to make a anonymous confession! \n OR \n Use img <URL> in my dms to post an image anonymously!")
-//     client.channels.cache.get('843571449641304084').send(em)
-//     client.channels.cache.get('843571449641304084').send('')
-//   }
-// });
-
 
 // client.on('message', message => {
 //   if (message.content.startsWith('crazytest')) {
@@ -95,5 +66,55 @@ client.on('message', message => {
 //     message.channel.send(arr[4])
 //   }
 // });
-    
+
+client.on('message', message => {
+  if (message.content.startsWith('ping ') ) {
+    if (!message.channel.name.includes("class-links")) message.channel.send('do this command only at <#868036126890426368>');
+    else {
+      let link = message.content.replace('ping', '')
+      // message.channel.send('anonymous confession has been submitted. Destination <#843571449641304084>')
+      let em = new Discord.MessageEmbed();
+      em.setTitle("Which branch you want to ping?")
+      em.setDescription("1.ECE \n 2.CSE \n 3.IT \n 4. CSE & IT \n 5. ALL")
+      em.setColor('RANDOM')
+      em.setFooter("Type 1-5 in next 15 seconds.")
+      message.channel.send(em)
+      message.channel.awaitMessages(m => m.author.id == message.author.id,
+        {max: 1, time: 30000}).then(collected => {
+                if (collected.first().content.toLowerCase() == '1') {
+                  message.reply('<@&824984224330416191>');
+                  // client.destroy();
+                }
+                if (collected.first().content.toLowerCase() == '2') {
+                  message.reply('<@&824974978784690198>');
+                  // client.destroy();
+                }
+                if (collected.first().content.toLowerCase() == '3') {
+                  message.reply('<@&824984226885402674>');
+                  // client.destroy();
+                }
+                if (collected.first().content.toLowerCase() == '4') {
+                  message.reply('<@&824974978784690198> & <@&824984226885402674>');
+                  // client.destroy();
+                }
+                if (collected.first().content.toLowerCase() == '5') {
+                  message.reply('<@&824984224330416191> & <@&824974978784690198> & <@&824984226885402674>');
+                  // client.destroy();
+                }
+                else
+                  message.reply('Operation canceled.');      
+        }).catch(() => {
+                message.reply('No answer after 30 seconds, operation canceled.');
+        });
+      let em = new Discord.MessageEmbed();
+      em.setTitle("Click here to join the meeting")
+      // em.setDescription("1.ECE \n 2.CSE \n 3.IT \n 4. CSE & IT \n 5. ALL")
+      em.setURL(link)
+      em.setColor('RANDOM')
+      em.setFooter("attendance ke liye hi join krlo...")
+      message.channel.send(em)
+    }
+  }
+});
+
 client.login(process.env.TOKEN)
