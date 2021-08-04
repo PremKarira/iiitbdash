@@ -70,6 +70,7 @@ client.on('message', message => {
 
 client.on('message', message => {
   if (message.content.startsWith('::ping ') ) {
+    message.delete(1000);
     if (!message.channel.name.includes("class-links")) message.channel.send('do this command only at <#868036126890426368>');
     else {
       let link = message.content.replace('::ping ', '')
@@ -86,30 +87,35 @@ client.on('message', message => {
       em.setColor('RANDOM')
       em.setFooter("Type 1-5 in next 15 seconds.")
       message.channel.send(em)
+        .then(msg => {
+                msg.delete({ timeout: 15000 /*time unitl delete in milliseconds*/});
+            })
+        .catch(/*Your Error handling if the Message isn't returned, sent, etc.*/);
       message.channel.awaitMessages(m => m.author.id == message.author.id,
-        {max: 1, time: 30000}).then(collected => {
+        {max: 1, time: 15000}).then(collected => {
                 if (collected.first().content.toLowerCase() == '1') {
                   message.channel.send('<@&824984224330416191>'); message.channel.send(emb)
-                  // client.destroy();
+                  collected.first().delete();// client.destroy();
                 }
                 else if (collected.first().content.toLowerCase() == '2') {
                   message.channel.send('<@&824974978784690198>'); message.channel.send(emb)
-                  // client.destroy();
+                  collected.first().delete();// client.destroy();
                 }
                 else if (collected.first().content.toLowerCase() == '3') {
                   message.channel.send('<@&824984226885402674>'); message.channel.send(emb)
-                  // client.destroy();
+                  collected.first().delete();// client.destroy();
                 }
                 else if (collected.first().content.toLowerCase() == '4') {
                   message.channel.send('<@&824974978784690198> & <@&824984226885402674>'); message.channel.send(emb)
-                  // client.destroy();
+                  collected.first().delete();// client.destroy();
                 }
                 else if (collected.first().content.toLowerCase() == '5') {
                   message.channel.send('<@&824984224330416191> & <@&824974978784690198> & <@&824984226885402674>'); message.channel.send(emb)
-                  // client.destroy();
+                  collected.first().delete();// client.destroy();
                 }
                 else
-                  message.reply('Operation canceled.');      
+                  message.reply('Operation canceled.');
+                collected.first().delete();
         }).catch(() => {
                 message.reply('No answer after 30 seconds, operation canceled.');
         });
