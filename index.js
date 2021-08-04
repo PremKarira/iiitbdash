@@ -69,7 +69,7 @@ client.on('message', message => {
 // });
 
 client.on('message', message => {
-  if (message.content.startsWith('/ping ') ) {
+  if (message.content.startsWith(':ping ') ) {
     if (!message.channel.name.includes("class-links")) message.channel.send('do this command only at <#868036126890426368>');
     else {
       let link = message.content.replace('ping', '')
