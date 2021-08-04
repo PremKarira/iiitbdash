@@ -73,6 +73,12 @@ client.on('message', message => {
     if (!message.channel.name.includes("class-links")) message.channel.send('do this command only at <#868036126890426368>');
     else {
       let link = message.content.replace('::ping ', '')
+      let emb = new Discord.MessageEmbed();
+      emb.setTitle("Click here to join the meeting")
+      // em.setDescription("1.ECE \n 2.CSE \n 3.IT \n 4. CSE & IT \n 5. ALL")
+      emb.setURL(link)
+      emb.setColor('RANDOM')
+      emb.setFooter("attendance ke liye hi join krlo...")
       // message.channel.send('anonymous confession has been submitted. Destination <#843571449641304084>')
       let em = new Discord.MessageEmbed();
       em.setTitle("Which branch you want to ping?")
@@ -83,23 +89,23 @@ client.on('message', message => {
       message.channel.awaitMessages(m => m.author.id == message.author.id,
         {max: 1, time: 30000}).then(collected => {
                 if (collected.first().content.toLowerCase() == '1') {
-                  message.channel.send('<@&824984224330416191>');
+                  message.channel.send('<@&824984224330416191>'); message.channel.send(emb)
                   // client.destroy();
                 }
-                if (collected.first().content.toLowerCase() == '2') {
-                  message.channel.send('<@&824974978784690198>');
+                else if (collected.first().content.toLowerCase() == '2') {
+                  message.channel.send('<@&824974978784690198>'); message.channel.send(emb)
                   // client.destroy();
                 }
-                if (collected.first().content.toLowerCase() == '3') {
-                  message.channel.send('<@&824984226885402674>');
+                else if (collected.first().content.toLowerCase() == '3') {
+                  message.channel.send('<@&824984226885402674>'); message.channel.send(emb)
                   // client.destroy();
                 }
-                if (collected.first().content.toLowerCase() == '4') {
-                  message.channel.send('<@&824974978784690198> & <@&824984226885402674>');
+                else if (collected.first().content.toLowerCase() == '4') {
+                  message.channel.send('<@&824974978784690198> & <@&824984226885402674>'); message.channel.send(emb)
                   // client.destroy();
                 }
-                if (collected.first().content.toLowerCase() == '5') {
-                  message.channel.send('<@&824984224330416191> & <@&824974978784690198> & <@&824984226885402674>');
+                else if (collected.first().content.toLowerCase() == '5') {
+                  message.channel.send('<@&824984224330416191> & <@&824974978784690198> & <@&824984226885402674>'); message.channel.send(emb)
                   // client.destroy();
                 }
                 else
@@ -107,13 +113,6 @@ client.on('message', message => {
         }).catch(() => {
                 message.reply('No answer after 30 seconds, operation canceled.');
         });
-      let emb = new Discord.MessageEmbed();
-      emb.setTitle("Click here to join the meeting")
-      // em.setDescription("1.ECE \n 2.CSE \n 3.IT \n 4. CSE & IT \n 5. ALL")
-      emb.setURL(link)
-      emb.setColor('RANDOM')
-      emb.setFooter("attendance ke liye hi join krlo...")
-      message.channel.send(emb)
     }
   }
 });
