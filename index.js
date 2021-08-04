@@ -59,7 +59,7 @@ client.on('message', message => {
     let emb1 = new Discord.MessageEmbed();
     let emb2 = new Discord.MessageEmbed();
     let emb3 = new Discord.MessageEmbed();
-    
+
     emb1.setTitle("ECE Time-Table")
     emb1.setColor('RANDOM')
     emb1.setFooter("type -cs for more commands")
@@ -78,9 +78,9 @@ client.on('message', message => {
     emb3.setTimestamp()
     emb3.setImage('https://images-ext-2.discordapp.net/external/gJyCVUXLVrk9ZtSK6RvnHjoJ40l-e7pQ3wOQc-zag6Y/https/media.discordapp.net/attachments/816314803387367466/872181270380167218/Frame_59IT.png?width=1426&height=670')
     
-    client.channels.cache.get('843571449641304084').send(emb1)
-    client.channels.cache.get('843571449641304084').send(emb2)
-    client.channels.cache.get('843571449641304084').send(emb3)
+    message.channel.send(emb1)
+    message.channel.send(emb2)
+    message.channel.send(emb3)
   }
 });
 
