@@ -51,7 +51,7 @@ client.on('message', message => {
 
 client.on('message', message => {
   if (message.content === '-tt') {
-    const UserPFP = message.member.avatarURL();
+    const UserPFP = message.member.user.avatarURL();
     message.channel.send('Wait for my reply')
       .then(msg => {
         msg.delete({ timeout: 15000 /*time unitl delete in milliseconds*/});
