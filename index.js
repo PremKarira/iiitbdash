@@ -89,23 +89,23 @@ client.on('message', message => {
       message.channel.awaitMessages(m => m.author.id == message.author.id,
         {max: 1, time: 30000}).then(collected => {
                 if (collected.first().content.toLowerCase() == '1') {
-                  message.channel.send('<@&82498422433041619>'); message.channel.send(emb)
+                  message.channel.send('<@&824984224330416191>'); message.channel.send(emb)
                   // client.destroy();
                 }
                 else if (collected.first().content.toLowerCase() == '2') {
-                  message.channel.send('<@&82497497878469019>'); message.channel.send(emb)
+                  message.channel.send('<@&824974978784690198>'); message.channel.send(emb)
                   // client.destroy();
                 }
                 else if (collected.first().content.toLowerCase() == '3') {
-                  message.channel.send('<@&82498422688540264>'); message.channel.send(emb)
+                  message.channel.send('<@&824984226885402674>'); message.channel.send(emb)
                   // client.destroy();
                 }
                 else if (collected.first().content.toLowerCase() == '4') {
-                  message.channel.send('<@&82497497878469198> & <@&82498422688542674>'); message.channel.send(emb)
+                  message.channel.send('<@&824974978784690198> & <@&824984226885402674>'); message.channel.send(emb)
                   // client.destroy();
                 }
                 else if (collected.first().content.toLowerCase() == '5') {
-                  message.channel.send('<@&82498422433016191> & <@&82497497878460198> & <@&82498422688402674>'); message.channel.send(emb)
+                  message.channel.send('<@&824984224330416191> & <@&824974978784690198> & <@&824984226885402674>'); message.channel.send(emb)
                   // client.destroy();
                 }
                 else
