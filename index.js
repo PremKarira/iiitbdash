@@ -159,6 +159,9 @@ client.on('message', message => {
                 else if (collected.first().content.toLowerCase() == '5') {
                   message.channel.send('<@&824984224330416191> & <@&824974978784690198> & <@&824984226885402674>',{embed: emb, });
                 }
+                else if (collected.first().content.toLowerCase() == '6') {
+                  message.channel.send('<@&872781024717860914>',{embed: emb, });
+                }
                 else
                   message.reply('Operation canceled.')
                     .then(msg => {
