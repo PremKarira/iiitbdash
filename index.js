@@ -141,20 +141,23 @@ client.on('message', message => {
       message.channel.awaitMessages(m => m.author.id == message.author.id,
         {max: 1, time: 15000}).then(collected => {
                 console.log('${collected.first()} used')
+                message.channel.send('This is a normal message.', {
+ embed: Embed,
+});
                 if (collected.first().content.toLowerCase() == '1') {
-                  message.channel.send('<@&824984224330416191>'); message.channel.send(emb)
+                  message.channel.send('<@&824984224330416191>',{embed: emb, });
                 }
                 else if (collected.first().content.toLowerCase() == '2') {
-                  message.channel.send('<@&824974978784690198>'); message.channel.send(emb)
+                  message.channel.send('<@&824974978784690198>',{embed: emb, });
                 }
                 else if (collected.first().content.toLowerCase() == '3') {
-                  message.channel.send('<@&824984226885402674>'); message.channel.send(emb)
+                  message.channel.send('<@&824984226885402674>',{embed: emb, });
                 }
                 else if (collected.first().content.toLowerCase() == '4') {
-                  message.channel.send('<@&824974978784690198> & <@&824984226885402674>'); message.channel.send(emb)
+                  message.channel.send('<@&824974978784690198> & <@&824984226885402674>',{embed: emb, });
                 }
                 else if (collected.first().content.toLowerCase() == '5') {
-                  message.channel.send('<@&824984224330416191> & <@&824974978784690198> & <@&824984226885402674>'); message.channel.send(emb)
+                  message.channel.send('<@&824984224330416191> & <@&824974978784690198> & <@&824984226885402674>',{embed: emb, });
                 }
                 else
                   message.reply('Operation canceled.')
