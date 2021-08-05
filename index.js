@@ -183,12 +183,16 @@ client.on('message', message => {
 
 client.on('message', message => {
   if (message.content.includes('https://teams.microsoft.com/l/meetup-join/') ) {
+    
     if (!message.channel.name.includes("class-links")) {
       message.channel.send('do this command only at <#868036126890426368>')
         .then(msg => {
           msg.delete({ timeout: 5000 });
         })
         .catch(err => console.error(err))
+    }
+    else if (message.content.startsWith('https://teams.microsoft.com/l/meetup-join/') ){
+      console.log("double")
     }
     else {
       const ind1 = message.content.lastIndexOf('https://teams.microsoft.com/l/meetup-join/')
