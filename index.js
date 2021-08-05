@@ -1,5 +1,5 @@
 const Discord = require("discord.js")
-// const config = require('./config.json')
+const config = require('./config.json')
 const client = new Discord.Client()
 
 // const randomBetween = (min, max) => Math.floor(Math.random()*(max-min+1)+min);
@@ -180,6 +180,85 @@ client.on('message', message => {
 //   }
 // });
 
-// client.login(config.token)
-client.login(process.env.TOKEN)
+
+client.on('message', message => {
+  if (message.content.includes('https://teams.microsoft.com/l/meetup-join/') ) {
+    if (!message.channel.name.includes("class-links")) {
+      message.channel.send('do this command only at <#868036126890426368>')
+        .then(msg => {
+          msg.delete({ timeout: 5000 });
+        })
+        .catch(err => console.error(err))
+    }
+    else {
+      const ind1 = message.content.lastIndexOf('https://teams.microsoft.com/l/meetup-join/')
+      const ind2 = message.content.lastIndexOf('Tap on the link')
+      let url = message.content.slice(ind1,ind2-1).trim()
+      // let url = message.content.slice(ind1).split("/n")
+      // console.log(url[0])
+      message.delete({ timeout: 2000 })
+        .then(msg => console.log(`Deleted message from ${msg.author.username} after 2 seconds`))
+        .catch(console.error);
+      
+      const UserPFP = message.member.user.avatarURL();
+      let emb = new Discord.MessageEmbed();
+      emb.setTitle("Click here to join the meeting")
+      emb.setURL(url)
+      emb.setColor('RANDOM')
+      emb.setFooter(`Requested by ${message.author.tag}`, UserPFP)
+      emb.setTimestamp()
+      // console.log(message.content)
+      let em = new Discord.MessageEmbed();
+      em.setTitle("Which branch you want to ping?")
+      em.setDescription("1. ECE \n 2. CSE \n 3. IT \n 4. CSE & IT \n 5. ALL")
+      em.setColor('RANDOM')
+      em.setFooter("Type 1-5 in next 15 seconds.")
+      message.channel.send(em)
+        .then(msg => {
+                msg.delete({ timeout: 15000 });
+            })
+        .catch(err => console.error(err))
+      message.channel.awaitMessages(m => m.author.id == message.author.id,
+        {max: 1, time: 15000}).then(collected => {
+                message.delete(em);
+                console.log('${collected.first()} used and em deleted')
+                if (collected.first().content.toLowerCase() == '1') {
+                  message.channel.send('<@&824984224330416191>',{embed: emb, });
+                }
+                else if (collected.first().content.toLowerCase() == '2') {
+                  message.channel.send('<@&824974978784690198>',{embed: emb, });
+                }
+                else if (collected.first().content.toLowerCase() == '3') {
+                  message.channel.send('<@&824984226885402674>',{embed: emb, });
+                }
+                else if (collected.first().content.toLowerCase() == '4') {
+                  message.channel.send('<@&824974978784690198> & <@&824984226885402674>',{embed: emb, });
+                }
+                else if (collected.first().content.toLowerCase() == '5') {
+                  message.channel.send('<@&824984224330416191> & <@&824974978784690198> & <@&824984226885402674>',{embed: emb, });
+                }
+                else if (collected.first().content.toLowerCase() == '6') {
+                  message.channel.send('<@&872781024717860914>',{embed: emb, });
+                }
+                else
+                  message.reply('Operation canceled.')
+                    .then(msg => {
+                      msg.delete({ timeout: 5000 });
+                    })
+                collected.first().delete();
+                console.log('${collected.first()} deleted')
+        }).catch(err => {
+          console.error(err)
+                message.reply('No answer after 15 seconds, operation canceled.')
+                  .then(msg => {
+                    msg.delete({ timeout: 5000 });
+                  })
+        });
+    }  
+  }
+});
+
+
+client.login(config.token)
+// client.login(process.env.TOKEN)
 
