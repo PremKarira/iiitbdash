@@ -1,6 +1,7 @@
 const Discord = require("discord.js")
 // const config = require('./config.json')
 const client = new Discord.Client()
+
 // const randomBetween = (min, max) => Math.floor(Math.random()*(max-min+1)+min);
 // const color = [
 //   randomBetween(0, 255),
@@ -20,9 +21,8 @@ client.on("message", message => {
     // if (message.mentions.has(client.user) && message.content === '<@843537329591418932>') {
     if (message.content === '<@843537329591418932>' || message.content === '<@!843537329591418932>') {
         message.channel.send("Hello there!");
-        // const vaaa=message.content
-        // message.channel.send(vaaa)
-        message.channel.send(`🏓Latency is ${Date.now() - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`);
+        message.channel.send(`🏓Latency is ${Date.now() - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`)
+          .catch(err => console.error(err))
     };
 });
 
@@ -57,9 +57,9 @@ client.on('message', message => {
     const UserPFP = message.member.user.avatarURL();
     message.channel.send('Wait for my reply')
       .then(msg => {
-        msg.delete({ timeout: 15000 /*time unitl delete in milliseconds*/});
+        msg.delete({ timeout: 15000 });
       })
-      .catch(/*Your Error handling if the Message isn't returned, sent, etc.*/);
+      .catch(err => console.error(err))
     let emb1 = new Discord.MessageEmbed();
     let emb2 = new Discord.MessageEmbed();
     let emb3 = new Discord.MessageEmbed();
@@ -88,59 +88,43 @@ client.on('message', message => {
   }
 });
 
-// client.on('message', message => {
-//   if (message.content.startsWith('crazytest')) {
-//     // message.delete()
-//     const Guild = client.guilds.cache.get("783758394166345779"); // Getting the guild.
-//     // const Members = Guild.members.cache.map(member => member.id);
-//     // var userList = message.guild.members.cache.array();
-//     var randomNumber = Math.round(Math.random() * message.guild.memberCount)
-//     const list = Guild.members.cache.keys();
-//     // list.forEach(id => console.log(id));
-//     const arr = [...list];
-//     // var pingPerson = userList[randomNumber] 
-//     message.channel.send(arr[0])
-//     message.channel.send(arr[1])
-//     message.channel.send(arr[2])
-//     message.channel.send(arr[3])
-//     message.channel.send(arr[4])
-//   }
-// });
-
 client.on('message', message => {
-  if (message.content.startsWith('::ping ') ) {
-    message.delete({ timeout: 2000 })
-      .then(msg => console.log(`Deleted message from ${msg.author.username} after 2 seconds`))
-      .catch(console.error);
+  if (message.content.startsWith('https://teams.microsoft.com/l/meetup-join/') ) {
+    
     if (!message.channel.name.includes("class-links")) {
       message.channel.send('do this command only at <#868036126890426368>')
         .then(msg => {
-          msg.delete({ timeout: 5000 /*time unitl delete in milliseconds*/});
+          msg.delete({ timeout: 5000 });
         })
-        .catch(/*Your Error handling if the Message isn't returned, sent, etc.*/);
+        .catch(err => console.error(err))
     }
     else {
-      let link = message.content.replace('::ping ', '')
+      message.delete({ timeout: 2000 })
+        .then(msg => console.log(`Deleted message from ${msg.author.username} after 2 seconds`))
+        .catch(console.error);
+      
+      const UserPFP = message.member.user.avatarURL();
       let emb = new Discord.MessageEmbed();
       emb.setTitle("Click here to join the meeting")
-      // em.setDescription("1.ECE \n 2.CSE \n 3.IT \n 4. CSE & IT \n 5. ALL")
-      emb.setURL(link)
+      emb.setURL(message.content)
       emb.setColor('RANDOM')
-      emb.setFooter("attendance ke liye hi join krlo...")
-      // message.channel.send('anonymous confession has been submitted. Destination <#843571449641304084>')
+      emb.setFooter(`Requested by ${message.author.tag}`, UserPFP)
+      emb.setTimestamp()
+      // console.log(message.content)
       let em = new Discord.MessageEmbed();
       em.setTitle("Which branch you want to ping?")
-      em.setDescription("1.ECE \n 2.CSE \n 3.IT \n 4. CSE & IT \n 5. ALL")
+      em.setDescription("1. ECE \n 2. CSE \n 3. IT \n 4. CSE & IT \n 5. ALL")
       em.setColor('RANDOM')
       em.setFooter("Type 1-5 in next 15 seconds.")
       message.channel.send(em)
         .then(msg => {
-                msg.delete({ timeout: 15000 /*time unitl delete in milliseconds*/});
+                msg.delete({ timeout: 15000 });
             })
-        .catch(/*Your Error handling if the Message isn't returned, sent, etc.*/);
+        .catch(err => console.error(err))
       message.channel.awaitMessages(m => m.author.id == message.author.id,
         {max: 1, time: 15000}).then(collected => {
-                console.log('${collected.first()} used')
+                message.delete(em);
+                console.log('${collected.first()} used and em deleted')
                 if (collected.first().content.toLowerCase() == '1') {
                   message.channel.send('<@&824984224330416191>',{embed: emb, });
                 }
@@ -166,8 +150,9 @@ client.on('message', message => {
                     })
                 collected.first().delete();
                 console.log('${collected.first()} deleted')
-        }).catch(() => {
-                message.reply('No answer after 30 seconds, operation canceled.')
+        }).catch(err => {
+          console.error(err)
+                message.reply('No answer after 15 seconds, operation canceled.')
                   .then(msg => {
                     msg.delete({ timeout: 5000 });
                   })
@@ -176,5 +161,25 @@ client.on('message', message => {
   }
 });
 
-client.login(process.env.TOKEN)
+// client.on('message', message => {
+//   if (message.content.startsWith('crazytest')) {
+//     // message.delete()
+//     const Guild = client.guilds.cache.get("783758394166345779"); // Getting the guild.
+//     // const Members = Guild.members.cache.map(member => member.id);
+//     // var userList = message.guild.members.cache.array();
+//     var randomNumber = Math.round(Math.random() * message.guild.memberCount)
+//     const list = Guild.members.cache.keys();
+//     // list.forEach(id => console.log(id));
+//     const arr = [...list];
+//     // var pingPerson = userList[randomNumber] 
+//     message.channel.send(arr[0])
+//     message.channel.send(arr[1])
+//     message.channel.send(arr[2])
+//     message.channel.send(arr[3])
+//     message.channel.send(arr[4])
+//   }
+// });
+
 // client.login(config.token)
+client.login(process.env.TOKEN)
+
