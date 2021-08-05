@@ -141,9 +141,6 @@ client.on('message', message => {
       message.channel.awaitMessages(m => m.author.id == message.author.id,
         {max: 1, time: 15000}).then(collected => {
                 console.log('${collected.first()} used')
-                message.channel.send('This is a normal message.', {
- embed: Embed,
-});
                 if (collected.first().content.toLowerCase() == '1') {
                   message.channel.send('<@&824984224330416191>',{embed: emb, });
                 }
