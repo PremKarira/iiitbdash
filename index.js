@@ -15,28 +15,16 @@ client.on("ready", () => {
 });
 
 client.on("message", message => {
-    if (message.author.bot) return false;
-    if (message.content.includes("@here") || message.content.includes("@everyone")) return false;
-    // if (message.mentions.has(client.user) && message.content === '<@843537329591418932>') {
-    if (message.content === '<@843537329591418932>' || message.content === '<@!843537329591418932>') {
-      let button = new disbut.MessageButton()
-        .setLabel("Hello there!")
-        .setID("btn")
-        .setStyle("blurple");
-      message.channel.send(`🏓Latency is ${Date.now() - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
-          .catch(err => console.error(err))
-    };
-});
+  if (message.author.bot) return false;
+  if (message.content === '<@843537329591418932>' || message.content === '<@!843537329591418932>') {
+    let button = new disbut.MessageButton()
+      .setLabel("Hello there!")
+      .setID("btn")
+      .setStyle("blurple");
+    message.channel.send(`🏓Latency is ${Date.now() - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
+        .catch(err => console.error(err))
+  };
 
-client.on('clickButton', async (button) => {
-  if(button.id === "btn"){
-    await button.reply.defer()
-    button.message.channel.send("hello <@!"+button.clicker.id+">")
-      .catch(err => console.error(err))
-  }
-})
-
-client.on('message', message => {
   if (message.content.startsWith('confess ') && (message.channel.type === "dm")) {
     let newmsg = message.content.replace('confess', '')
     message.channel.send('anonymous confession has been submitted. Destination <#843571449641304084>')
@@ -47,9 +35,7 @@ client.on('message', message => {
     em.setFooter("Use confess <confession> in my dms to make a anonymous confession!")
     client.channels.cache.get('843571449641304084').send(em)
   }
-});
 
-client.on('message', message => {
   if (message.content.startsWith('img ') && (message.channel.type === "dm")) {
     let msg = message.content.replace('img', '')
     message.channel.send('anonymous confession has been submitted. Destination <#843571449641304084>')
@@ -60,9 +46,7 @@ client.on('message', message => {
     emb.setImage(msg)
     client.channels.cache.get('843571449641304084').send(emb)
   }
-});
 
-client.on('message', message => {
   if (message.content === '-tt') {
     const UserPFP = message.member.user.avatarURL();
     message.channel.send('Wait for my reply')
@@ -96,9 +80,7 @@ client.on('message', message => {
     message.channel.send(emb2)
     message.channel.send(emb3)
   }
-});
 
-client.on('message', message => {
   if (message.content.includes('https://teams.microsoft.com/l/meetup-join/') ) {
     if (!message.channel.name.includes("class-links")) {
       message.channel.send('do this command only at <#868036126890426368>')
@@ -132,7 +114,7 @@ client.on('message', message => {
       emb.setTimestamp()
       // console.log(message.content)
       em.setTitle("Which branch you want to ping?")
-      em.setDescription("1. ECE \n 2. CSE \n 3. IT \n 4. CSE & IT \n 5. ALL")
+      em.setDescription("1. ECE \n 2. CSE \n 3. IT \n 4. CSE & IT \n 5. ALL \n type `CANCEL` to cancel the request.")
       em.setColor('RANDOM')
       em.setFooter("Type 1-5 in next 15 seconds.")
 
@@ -157,11 +139,27 @@ client.on('message', message => {
         .setID("btn5")
         .setStyle("blurple");
       let buttonX = new disbut.MessageButton()
-        .setLabel("X")
+        .setLabel("Wanna cancel the request?")
         .setID("btnX")
         .setStyle("blurple");
-        message.channel.send("", {embed: em, buttons: [button1, button2, button3, button4, button5, buttonX]})
+      
+      message.channel.send("", {embed: em, buttons: [button1, button2, button3, button4, button5, buttonX]})
         .then(msg => {
+          pingEmbed=1;
+          msg.delete({ timeout: 15000 })
+            .catch(err => {
+              console.error("button "+bn+" pressed, msg already deleted")
+              bn=0;
+            })
+          // message.reply('No answer after 15 seconds, operation canceled.')
+        })
+        .catch(err => {
+          // msg.delete()
+          console.error(err)
+        })
+      message.channel.send("", {buttons: [buttonX]})
+        .then(msg => {
+          pingEmbed=1;
           msg.delete({ timeout: 15000 })
             .catch(err => {
               console.error("button "+bn+" pressed, msg already deleted")
@@ -177,31 +175,12 @@ client.on('message', message => {
   }
 });
 
-//       message.channel.send("", {embed: em, buttons: [button1, button2, button3, button4, button5, buttonX]})
-//         .then(msg => {
-//           pingEmbed=1;
-//           msg.delete({ timeout: 15000 })
-//             .then(
-//               msg.reply('No answer after 15 seconds, operation canceled.')
-//                 .then(tempmsg => {
-//                   tempmsg.delete({ timeout: 5000 });
-//                 })
-//                 .catch(err => console.error(err))
-//             )
-//             .catch(err => {
-//               console.error("button "+bn+" pressed, msg already deleted")
-//               bn=0;
-//             })
-//         })
-//         .catch(err => {
-//           // msg.delete()
-//           console.error(err)
-//         })
-//     }  
-//   }
-// });
-
 client.on('clickButton', async (button) => {
+  if(button.id === "btn"){
+    await button.reply.defer()
+    button.message.channel.send("hello <@!"+button.clicker.id+">")
+      .catch(err => console.error(err))
+  }
   if(button.clicker.id === user && pingEmbed){
     if(button.id === "btn1"){bn=1;pingEmbed=0;
       await button.message.delete();
@@ -249,8 +228,8 @@ client.on('clickButton', async (button) => {
   else if (pingEmbed){
     await button.message.channel.send("Waiting for <@!"+user+"> to respond.")
   }
+  
 })
 
 // client.login(config.token)
 client.login(process.env.TOKEN)
-
