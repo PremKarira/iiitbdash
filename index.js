@@ -170,7 +170,7 @@ client.on('message', message => {
           // message.reply('No answer after 15 seconds, operation canceled.')
         })
         .catch(err => {
-          msg.delete()
+          // msg.delete()
           console.error(err)
         })
     }  
