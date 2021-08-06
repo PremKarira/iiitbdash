@@ -158,12 +158,14 @@ client.on("message", message => {
               if (collected.first().content.toLowerCase() == 'cancel') {
                 message.channel.send('successfully cancelled the request')
                   .catch(err => console.error(err))
+                msg.delete()
+                collected.first().delete()
+                  .catch(err => console.error(err))
               }
               else{
                 console.log('not cancelled')
               }
-              collected.first().delete()
-                .catch(err => console.error(err))
+              
             })
             .catch(err => {
               console.error(err)
