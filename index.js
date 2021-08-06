@@ -4,6 +4,11 @@ const client = new Discord.Client()
 require('discord-buttons')(client);
 const disbut = require("discord-buttons");
 
+let emb = new Discord.MessageEmbed();
+let em = new Discord.MessageEmbed();
+let bn =0;
+let user=0;
+
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`)
 });
@@ -15,7 +20,7 @@ client.on("message", message => {
     if (message.content === '<@843537329591418932>' || message.content === '<@!843537329591418932>') {
       let button = new disbut.MessageButton()
         .setLabel("Hello there!")
-        .setID("btn1")
+        .setID("btn")
         .setStyle("blurple");
       message.channel.send(`🏓Latency is ${Date.now() - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
           .catch(err => console.error(err))
@@ -23,7 +28,7 @@ client.on("message", message => {
 });
 
 client.on('clickButton', async (button) => {
-  if(button.id === "btn1"){
+  if(button.id === "btn"){
     await button.reply.defer()
     button.message.channel.send("hello <@"+button.clicker.id+">")
       .catch(err => console.error(err))
@@ -118,69 +123,48 @@ client.on('message', message => {
         .then(msg => console.log(`Deleted message from ${msg.author.username} after 2 seconds`))
         .catch(console.error);
       const UserPFP = message.member.user.avatarURL();
-      let emb = new Discord.MessageEmbed();
+      user=message.author.id;
       emb.setTitle("Click here to join the meeting")
       emb.setURL(url)
       emb.setColor('RANDOM')
       emb.setFooter(`Requested by ${message.author.tag}`, UserPFP)
       emb.setTimestamp()
       // console.log(message.content)
-      let em = new Discord.MessageEmbed();
       em.setTitle("Which branch you want to ping?")
       em.setDescription("1. ECE \n 2. CSE \n 3. IT \n 4. CSE & IT \n 5. ALL")
       em.setColor('RANDOM')
       em.setFooter("Type 1-5 in next 15 seconds.")
-      message.channel.send(em)
+
+      let button1 = new disbut.MessageButton()
+        .setLabel("1")
+        .setID("btn1")
+        .setStyle("blurple");
+      let button2 = new disbut.MessageButton()
+        .setLabel("2")
+        .setID("btn2")
+        .setStyle("blurple");
+      let button3 = new disbut.MessageButton()
+        .setLabel("3")
+        .setID("btn3")
+        .setStyle("blurple");
+      let button4 = new disbut.MessageButton()
+        .setLabel("4")
+        .setID("btn4")
+        .setStyle("blurple");
+      let button5 = new disbut.MessageButton()
+        .setLabel("5")
+        .setID("btn5")
+        .setStyle("blurple");
+
+      message.channel.send("", {embed: em, buttons: [button1, button2, button3, button4, button5]})
         .then(msg => {
-          message.channel.awaitMessages(m => m.author.id == message.author.id,
-            {max: 1, time: 15000})
-            .then(collected => {
-              console.log(collected.first().content + 'ping initiated by' + message.author.tag)
-              if (collected.first().content.toLowerCase() == '1') {
-                message.channel.send('<@&824984224330416191>',{embed: emb, })
-                  .catch(err => console.error(err))
-              }
-              else if (collected.first().content.toLowerCase() == '2') {
-                message.channel.send('<@&824974978784690198>',{embed: emb, })
-                  .catch(err => console.error(err))
-              }
-              else if (collected.first().content.toLowerCase() == '3') {
-                message.channel.send('<@&824984226885402674>',{embed: emb, })
-                  .catch(err => console.error(err))
-              }
-              else if (collected.first().content.toLowerCase() == '4') {
-                message.channel.send('<@&824974978784690198> & <@&824984226885402674>',{embed: emb, })
-                  .catch(err => console.error(err))
-              }
-              else if (collected.first().content.toLowerCase() == '5') {
-                message.channel.send('<@&824984224330416191> & <@&824974978784690198> & <@&824984226885402674>',{embed: emb, })
-                  .catch(err => console.error(err))
-              }
-              else if (collected.first().content.toLowerCase() == '6') {
-                message.channel.send('<@&872781024717860914>',{embed: emb, })
-                  .catch(err => console.error(err))
-              }
-              else{
-                message.reply('Operation canceled.')
-                  .then(msg => {
-                    msg.delete({ timeout: 5000 });
-                  })
-                  .catch(err => console.error(err))
-              }
-              msg.delete()
-              collected.first().delete()
-                .catch(err => console.error(err))
-    
-            })
+          msg.delete({ timeout: 15000 })
             .catch(err => {
-              msg.delete()
-              message.reply('No answer after 15 seconds, operation canceled.')
-                .then(msg => {
-                  msg.delete({ timeout: 5000 });
-                })
-                .catch(err => console.error(err))
-            });
-          })
+              console.error("button "+bn+" pressed, msg already deleted")
+              bn=0;
+            })
+          message.reply('No answer after 15 seconds, operation canceled.')
+        })
         .catch(err => {
           msg.delete()
           console.error(err)
@@ -188,6 +172,165 @@ client.on('message', message => {
     }  
   }
 });
+
+client.on('clickButton', async (button) => {
+  if(button.clicker.id === user){
+    if(button.id === "btn1"){bn=1;
+      await button.message.delete();
+      await button.reply.defer()
+      await button.message.channel.send('<@&824984224330416191>',{embed: emb, })
+        .catch(err => console.error(err))
+      console.log(bn + ' ping initiated by ' + button.clicker.id)
+    }
+    else if(button.id === "btn2"){bn=2;
+      await button.message.delete();
+      await button.reply.defer()
+      await button.message.channel.send('<@&824974978784690198>',{embed: emb, })
+        .catch(err => console.error(err))
+      console.log(bn + ' ping initiated by ' + button.clicker.id)
+    }
+    else if(button.id === "btn3"){bn=3;
+      await button.message.delete();
+      await button.reply.defer()
+      await button.message.channel.send('<@&824984226885402674>',{embed: emb, })
+        .catch(err => console.error(err))
+      console.log(bn + ' ping initiated by ' + button.clicker.id)
+    }
+    else if(button.id === "btn4"){bn=4;
+      await button.message.delete();
+      await button.reply.defer()
+      await button.message.channel.send('<@&824974978784690198> & <@&824984226885402674>',{embed: emb, })
+        .catch(err => console.error(err))
+      console.log(bn + ' ping initiated by ' + button.clicker.id)
+    }
+    else if(button.id === "btn5"){bn=5;
+      await button.message.delete();
+      await button.reply.defer()
+      await button.message.channel.send('<@&824984224330416191> & <@&824974978784690198> & <@&824984226885402674>',{embed: emb, })
+        .catch(err => console.error(err))
+      console.log(bn + ' ping initiated by ' + button.clicker.id)
+    }
+  }
+  else{
+    await button.message.channel.send("Waiting for <@"+user+"> to respond.")
+  }
+})
+
+// .then(msg => {
+//   message.channel.awaitMessages(m => m.author.id == message.author.id,
+//     {max: 1, time: 15000})-*
+//     .then(collected => {
+//       console.log(collected.first().content + 'ping initiated by' + message.author.tag)
+//       
+//       msg.delete()
+//       collected.first().delete()
+//         .catch(err => console.error(err))
+//     })
+//     .catch(err => {
+//       msg.delete()
+//       message.reply('No answer after 15 seconds, operation canceled.')
+//         .then(msg => {
+//           msg.delete({ timeout: 5000 });
+//         })
+//         .catch(err => console.error(err))
+//     });
+//   })
+
+// client.on('message', message => {
+//   if (message.content.includes('https://teams.microsoft.com/l/meetup-join/') ) {
+//     if (!message.channel.name.includes("class-links")) {
+//       message.channel.send('do this command only at <#868036126890426368>')
+//         .then(msg => {
+//           msg.delete({ timeout: 5000 });
+//         })
+//         .catch(err => console.error(err))
+//     }
+//     else {
+//       const ind1 = message.content.lastIndexOf('https://teams.microsoft.com/l/meetup-join/')
+//       // const ind2 = message.content.lastIndexOf('Tap on the link')
+//       let url = message.content.slice(ind1).split(" ")
+//       if (message.content.startsWith('https://teams.microsoft.com/l/meetup-join/')) {
+//         url = message.content.split(" ")
+//       }
+//       url = url[0]
+//       url = url.toLowerCase()
+//       const ind2=url.length
+//       if (url.charAt(ind2-1)==='p' && url.charAt(ind2-2)==='a' && url.charAt(ind2-3)==='t'){
+//         url=url.substr(0,ind2-5)
+//       }
+//       message.delete({ timeout: 2000 })
+//         .then(msg => console.log(`Deleted message from ${msg.author.username} after 2 seconds`))
+//         .catch(console.error);
+//       const UserPFP = message.member.user.avatarURL();
+//       let emb = new Discord.MessageEmbed();
+//       emb.setTitle("Click here to join the meeting")
+//       emb.setURL(url)
+//       emb.setColor('RANDOM')
+//       emb.setFooter(`Requested by ${message.author.tag}`, UserPFP)
+//       emb.setTimestamp()
+//       // console.log(message.content)
+//       let em = new Discord.MessageEmbed();
+//       em.setTitle("Which branch you want to ping?")
+//       em.setDescription("1. ECE \n 2. CSE \n 3. IT \n 4. CSE & IT \n 5. ALL")
+//       em.setColor('RANDOM')
+//       em.setFooter("Type 1-5 in next 15 seconds.")
+//       message.channel.send(em)
+//         .then(msg => {
+//           message.channel.awaitMessages(m => m.author.id == message.author.id,
+//             {max: 1, time: 15000})
+//             .then(collected => {
+//               console.log(collected.first().content + 'ping initiated by' + message.author.tag)
+//               if (collected.first().content.toLowerCase() == '1') {
+//                 message.channel.send('<@&824984224330416191>',{embed: emb, })
+//                   .catch(err => console.error(err))
+//               }
+//               else if (collected.first().content.toLowerCase() == '2') {
+//                 message.channel.send('<@&824974978784690198>',{embed: emb, })
+//                   .catch(err => console.error(err))
+//               }
+//               else if (collected.first().content.toLowerCase() == '3') {
+//                 message.channel.send('<@&824984226885402674>',{embed: emb, })
+//                   .catch(err => console.error(err))
+//               }
+//               else if (collected.first().content.toLowerCase() == '4') {
+//                 message.channel.send('<@&824974978784690198> & <@&824984226885402674>',{embed: emb, })
+//                   .catch(err => console.error(err))
+//               }
+//               else if (collected.first().content.toLowerCase() == '5') {
+//                 message.channel.send('<@&824984224330416191> & <@&824974978784690198> & <@&824984226885402674>',{embed: emb, })
+//                   .catch(err => console.error(err))
+//               }
+//               else if (collected.first().content.toLowerCase() == '6') {
+//                 message.channel.send('<@&872781024717860914>',{embed: emb, })
+//                   .catch(err => console.error(err))
+//               }
+//               else{
+//                 message.reply('Operation canceled.')
+//                   .then(msg => {
+//                     msg.delete({ timeout: 5000 });
+//                   })
+//                   .catch(err => console.error(err))
+//               }
+//               msg.delete()
+//               collected.first().delete()
+//                 .catch(err => console.error(err))
+//             })
+//             .catch(err => {
+//               msg.delete()
+//               message.reply('No answer after 15 seconds, operation canceled.')
+//                 .then(msg => {
+//                   msg.delete({ timeout: 5000 });
+//                 })
+//                 .catch(err => console.error(err))
+//             });
+//           })
+//         .catch(err => {
+//           msg.delete()
+//           console.error(err)
+//         })
+//     }  
+//   }
+// });
 
 client.login(config.token)
 // client.login(process.env.TOKEN)
