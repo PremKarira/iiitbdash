@@ -157,7 +157,7 @@ client.on("message", message => {
           // msg.delete()
           console.error(err)
         })
-      message.channel.send("", {buttons: [buttonX]})
+      message.channel.send("Wanna cancel the request?", {buttons: [buttonX]})
         .then(msg => {
           pingEmbed=1;
           msg.delete({ timeout: 15000 })
