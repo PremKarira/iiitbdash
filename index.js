@@ -159,11 +159,17 @@ client.on('message', message => {
       message.channel.send("", {embed: em, buttons: [button1, button2, button3, button4, button5]})
         .then(msg => {
           msg.delete({ timeout: 15000 })
+            .then(
+              message.reply('No answer after 15 seconds, operation canceled.')
+                .then(msg => {
+                  msg.delete({ timeout: 5000 });
+                })
+                .catch(err => console.error(err))
+            )
             .catch(err => {
               console.error("button "+bn+" pressed, msg already deleted")
               bn=0;
             })
-          message.reply('No answer after 15 seconds, operation canceled.')
         })
         .catch(err => {
           msg.delete()
