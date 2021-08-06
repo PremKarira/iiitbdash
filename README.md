@@ -1,2 +1,2 @@
 # IIITB DASH
-A discord bot by rook or crook
+A discord bot by hook or crook
