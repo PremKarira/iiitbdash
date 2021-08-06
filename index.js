@@ -1,7 +1,8 @@
 const Discord = require("discord.js")
 const config = require('./config.json')
 const client = new Discord.Client()
-
+require('discord-buttons')(client);
+const disbut = require("discord-buttons");
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`)
@@ -12,11 +13,22 @@ client.on("message", message => {
     if (message.content.includes("@here") || message.content.includes("@everyone")) return false;
     // if (message.mentions.has(client.user) && message.content === '<@843537329591418932>') {
     if (message.content === '<@843537329591418932>' || message.content === '<@!843537329591418932>') {
-        message.channel.send("Hello there!");
-        message.channel.send(`🏓Latency is ${Date.now() - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`)
+      let button = new disbut.MessageButton()
+        .setLabel("Hello there!")
+        .setID("btn1")
+        .setStyle("blurple");
+      message.channel.send(`🏓Latency is ${Date.now() - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
           .catch(err => console.error(err))
     };
 });
+
+client.on('clickButton', async (button) => {
+  if(button.id === "btn1"){
+    await button.reply.defer()
+    button.message.channel.send("hello <@"+button.clicker.id+">")
+      .catch(err => console.error(err))
+  }
+})
 
 client.on('message', message => {
   if (message.content.startsWith('confess ') && (message.channel.type === "dm")) {
