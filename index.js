@@ -152,20 +152,22 @@ client.on("message", message => {
               bn=0;
             })
           // message.reply('No answer after 15 seconds, operation canceled.')
-        })
-        .catch(err => {
-          // msg.delete()
-          console.error(err)
-        })
-      message.channel.send("Wanna cancel the request?", {buttons: [buttonX]})
-        .then(msg => {
-          pingEmbed=1;
-          msg.delete({ timeout: 15000 })
-            .catch(err => {
-              console.error("button "+bn+" pressed, msg already deleted")
-              bn=0;
+          message.channel.awaitMessages(m => m.author.id == message.author.id,
+            {max: 1, time: 15000})
+            .then(collected => {
+              if (collected.first().content.toLowerCase() == 'cancel') {
+                message.channel.send('successfully cancelled the request')
+                  .catch(err => console.error(err))
+              }
+              else{
+                console.log('not cancelled')
+              }
+              collected.first().delete()
+                .catch(err => console.error(err))
             })
-          // message.reply('No answer after 15 seconds, operation canceled.')
+            .catch(err => {
+              console.error(err)
+            });
         })
         .catch(err => {
           // msg.delete()
