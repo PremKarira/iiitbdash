@@ -143,7 +143,7 @@ client.on("message", message => {
         .setID("btnX")
         .setStyle("blurple");
       
-      message.channel.send("", {embed: em, buttons: [button1, button2, button3, button4, button5, buttonX]})
+      message.channel.send("", {embed: em, buttons: [button1, button2, button3, button4, button5]})
         .then(msg => {
           pingEmbed=1;
           msg.delete({ timeout: 15000 })
