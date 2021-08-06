@@ -160,30 +160,46 @@ client.on('message', message => {
         .setLabel("X")
         .setID("btnX")
         .setStyle("blurple");
-
-      message.channel.send("", {embed: em, buttons: [button1, button2, button3, button4, button5, buttonX]})
+        message.channel.send("", {embed: em, buttons: [button1, button2, button3, button4, button5, buttonX]})
         .then(msg => {
-          pingEmbed=1;
           msg.delete({ timeout: 15000 })
-            // .then(
-            //   msg.reply('No answer after 15 seconds, operation canceled.')
-            //     .then(tempmsg => {
-            //       tempmsg.delete({ timeout: 5000 });
-            //     })
-            //     .catch(err => console.error(err))
-            // )
             .catch(err => {
               console.error("button "+bn+" pressed, msg already deleted")
               bn=0;
             })
+          // message.reply('No answer after 15 seconds, operation canceled.')
         })
         .catch(err => {
-          // msg.delete()
+          msg.delete()
           console.error(err)
         })
     }  
   }
 });
+
+//       message.channel.send("", {embed: em, buttons: [button1, button2, button3, button4, button5, buttonX]})
+//         .then(msg => {
+//           pingEmbed=1;
+//           msg.delete({ timeout: 15000 })
+//             .then(
+//               msg.reply('No answer after 15 seconds, operation canceled.')
+//                 .then(tempmsg => {
+//                   tempmsg.delete({ timeout: 5000 });
+//                 })
+//                 .catch(err => console.error(err))
+//             )
+//             .catch(err => {
+//               console.error("button "+bn+" pressed, msg already deleted")
+//               bn=0;
+//             })
+//         })
+//         .catch(err => {
+//           // msg.delete()
+//           console.error(err)
+//         })
+//     }  
+//   }
+// });
 
 client.on('clickButton', async (button) => {
   if(button.clicker.id === user && pingEmbed){
