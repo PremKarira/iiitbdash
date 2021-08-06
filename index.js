@@ -165,20 +165,20 @@ client.on('message', message => {
         .then(msg => {
           pingEmbed=1;
           msg.delete({ timeout: 15000 })
-            .then(
-              // msg.reply('No answer after 15 seconds, operation canceled.')
-              //   .then(tempmsg => {
-              //     tempmsg.delete({ timeout: 5000 });
-              //   })
-              //   .catch(err => console.error(err))
-            )
+            // .then(
+            //   msg.reply('No answer after 15 seconds, operation canceled.')
+            //     .then(tempmsg => {
+            //       tempmsg.delete({ timeout: 5000 });
+            //     })
+            //     .catch(err => console.error(err))
+            // )
             .catch(err => {
               console.error("button "+bn+" pressed, msg already deleted")
               bn=0;
             })
         })
         .catch(err => {
-          msg.delete()
+          // msg.delete()
           console.error(err)
         })
     }  
