@@ -229,7 +229,7 @@ client.on('clickButton', async (button) => {
       console.log(bn + ' ping initiated by ' + button.clicker.id)
     }
   }
-  else if (pingEmbed){
+  else if (pingEmbed && (button.id === "btn1" || button.id === "btn2" || button.id === "btn3" || button.id === "btn4" || button.id === "btn5")){
     await button.message.channel.send("Waiting for <@!"+user+"> to respond.")
   }
   
