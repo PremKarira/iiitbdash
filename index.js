@@ -97,9 +97,9 @@ client.on("message", message => {
         url = message.content.split(" ")
       }
       url = url[0]
-      url = url.toLowerCase()
+//       url = url.toLowerCase()
       const ind2=url.length
-      if (url.charAt(ind2-1)==='p' && url.charAt(ind2-2)==='a' && url.charAt(ind2-3)==='t'){
+      if (url.charAt(ind2-1)==='p' && url.charAt(ind2-2)==='a' && url.charAt(ind2-3)==='T'){
         url=url.substr(0,ind2-5)
       }
       message.delete({ timeout: 2000 })
