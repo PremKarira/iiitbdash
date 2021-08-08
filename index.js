@@ -182,7 +182,10 @@ client.on("message", message => {
 client.on('clickButton', async (button) => {
   if(button.id === "btn"){
     await button.reply.defer()
-    button.message.channel.send("hello <@!"+button.clicker.id+">")
+    button.message.channel.send(`hello <@!${button.clicker.id}`)
+      .then(msg => {
+        msg.delete({ timeout: 10000 });
+      })
       .catch(err => console.error(err))
   }
   if(button.clicker.id === user && pingEmbed){
@@ -231,6 +234,10 @@ client.on('clickButton', async (button) => {
   }
   else if (pingEmbed && (button.id === "btn1" || button.id === "btn2" || button.id === "btn3" || button.id === "btn4" || button.id === "btn5")){
     await button.message.channel.send(`Waiting for <@!${user} to respond.`)
+      .then(msg => {
+        msg.delete({ timeout: 10000 });
+      })
+      .catch(err => console.error(err))
   }
   
 })
