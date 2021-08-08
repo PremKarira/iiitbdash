@@ -28,23 +28,23 @@ client.on("message", message => {
   if (message.content.startsWith('confess ') && (message.channel.type === "dm")) {
     let newmsg = message.content.replace('confess', '')
     message.channel.send('anonymous confession has been submitted. Destination <#843571449641304084>')
-    let em = new Discord.MessageEmbed();
-    em.setTitle("Confession")
-    em.setDescription(newmsg)
-    em.setColor('RANDOM')
-    em.setFooter("Use confess <confession> in my dms to make a anonymous confession!")
-    client.channels.cache.get('843571449641304084').send(em)
+    let emConfession = new Discord.MessageEmbed();
+    emConfession.setTitle("Confession")
+    emConfession.setDescription(newmsg)
+    emConfession.setColor('RANDOM')
+    emConfession.setFooter("Use confess <confession> in my dms to make a anonymous confession!")
+    client.channels.cache.get('843571449641304084').send(emConfession)
   }
 
   if (message.content.startsWith('img ') && (message.channel.type === "dm")) {
     let msg = message.content.replace('img', '')
     message.channel.send('anonymous confession has been submitted. Destination <#843571449641304084>')
-    let emb = new Discord.MessageEmbed();
-    emb.setTitle("Confession")
-    emb.setColor('RANDOM')
-    emb.setFooter("Use img <URL> in my dms to post an image anonymously!")
-    emb.setImage(msg)
-    client.channels.cache.get('843571449641304084').send(emb)
+    let emImage = new Discord.MessageEmbed();
+    emImage.setTitle("Confession")
+    emImage.setImage(msg)
+    emImage.setColor('RANDOM')
+    emImage.setFooter("Use img <URL> in my dms to post an image anonymously!")
+    client.channels.cache.get('843571449641304084').send(emImage)
   }
 
   if (message.content === '-tt') {
@@ -76,9 +76,9 @@ client.on("message", message => {
     emb3.setTimestamp()
     emb3.setImage('https://images-ext-2.discordapp.net/external/gJyCVUXLVrk9ZtSK6RvnHjoJ40l-e7pQ3wOQc-zag6Y/https/media.discordapp.net/attachments/816314803387367466/872181270380167218/Frame_59IT.png?width=1426&height=670')
     
-    message.channel.send(emb1)
-    message.channel.send(emb2)
-    message.channel.send(emb3)
+    message.channel.send(emb1).catch(err => console.error(err))
+    message.channel.send(emb2).catch(err => console.error(err))
+    message.channel.send(emb3).catch(err => console.error(err))
   }
 
   if (message.content.includes('https://teams.microsoft.com/l/meetup-join/') ) {
