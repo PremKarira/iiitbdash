@@ -1,5 +1,5 @@
 const Discord = require("discord.js")
-// const config = require('./config.json')
+const config = require('./config.json')
 const client = new Discord.Client()
 require('discord-buttons')(client);
 const disbut = require("discord-buttons");
@@ -90,25 +90,28 @@ client.on("message", message => {
         .catch(err => console.error(err))
     }
     else {
-      const ind1 = message.content.lastIndexOf('https://teams.microsoft.com/l/meetup-join/')
+      // const ind1 = message.content.lastIndexOf('https://teams.microsoft.com/l/meetup-join/')
       // const ind2 = message.content.lastIndexOf('Tap on the link')
-      let url = message.content.slice(ind1).split(" ")
-      if (message.content.startsWith('https://teams.microsoft.com/l/meetup-join/')) {
-        url = message.content.split(" ")
-      }
-      url = url[0]
-//       url = url.toLowerCase()
-      const ind2=url.length
-      if (url.charAt(ind2-1)==='p' && url.charAt(ind2-2)==='a' && url.charAt(ind2-3)==='T'){
-        url=url.substr(0,ind2-5)
-      }
+      // let url = message.content.slice(ind1).split(" ")
+      // if (message.content.startsWith('https://teams.microsoft.com/l/meetup-join/')) {
+      //   url = message.content.split(" ")
+      // }
+      // url = url[0]
+      // url = url.toLowerCase()
+      // const ind2=url.length
+      // if (url.charAt(ind2-1)==='p' && url.charAt(ind2-2)==='a' && url.charAt(ind2-3)==='T'){
+      //   url=url.substr(0,ind2-5)
+      // }
+      var myString = message.content;
+      var regExp = myString.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
       message.delete({ timeout: 2000 })
-        .then(msg => console.log(`Deleted message from ${msg.author.username} after 2 seconds`))
+        .then(msg => console.log(`Deleted message from ${msg.author.username} after 2 seconds in ${msg.channel.id}`))
         .catch(console.error);
       const UserPFP = message.member.user.avatarURL();
       user=message.author.id;
       emb.setTitle("Click here to join the meeting")
-      emb.setURL(url)
+      let url1=regExp[0];
+      emb.setURL(url1)
       emb.setColor('RANDOM')
       emb.setFooter(`Requested by ${message.author.tag}`, UserPFP)
       emb.setTimestamp()
@@ -168,7 +171,8 @@ client.on("message", message => {
               
             })
             .catch(err => {
-              console.error(err)
+              // console.error(err)
+              console.log("not cancelled")
             });
         })
         .catch(err => {
@@ -182,9 +186,9 @@ client.on("message", message => {
 client.on('clickButton', async (button) => {
   if(button.id === "btn"){
     await button.reply.defer()
-    button.message.channel.send(`hello <@!${button.clicker.id}`)
+    button.message.channel.send(`hello <@!${button.clicker.id}>`)
       .then(msg => {
-        msg.delete({ timeout: 10000 });
+        // msg.delete({ timeout: 10000 });
       })
       .catch(err => console.error(err))
   }
@@ -233,7 +237,7 @@ client.on('clickButton', async (button) => {
     }
   }
   else if (pingEmbed && (button.id === "btn1" || button.id === "btn2" || button.id === "btn3" || button.id === "btn4" || button.id === "btn5")){
-    await button.message.channel.send(`Waiting for <@!${user} to respond.`)
+    await button.message.channel.send(`Waiting for <@!${user}> to respond.`)
       .then(msg => {
         msg.delete({ timeout: 10000 });
       })
@@ -242,5 +246,5 @@ client.on('clickButton', async (button) => {
   
 })
 
-// client.login(config.token)
-client.login(process.env.TOKEN)
+client.login(config.token)
+// client.login(process.env.TOKEN)
