@@ -148,7 +148,7 @@ client.on("message", message => {
           pingEmbed=1;
           msg.delete({ timeout: 15000 })
             .catch(err => {
-              console.error("button "+bn+" pressed, msg already deleted")
+              console.error(`button ${bn} pressed, msg already deleted`)
               bn=0;
             })
           // message.reply('No answer after 15 seconds, operation canceled.')
@@ -191,46 +191,46 @@ client.on('clickButton', async (button) => {
       await button.reply.defer()
       await button.message.channel.send('<@&824984224330416191>',{embed: emb, })
         .catch(err => console.error(err))
-      console.log(bn + ' ping initiated by ' + button.clicker.id)
+      console.log(`${bn} ping initiated by ${button.clicker.id}`)
     }
     else if(button.id === "btn2"){bn=2;pingEmbed=0;
       await button.message.delete();
       await button.reply.defer()
       await button.message.channel.send('<@&824974978784690198>',{embed: emb, })
         .catch(err => console.error(err))
-      console.log(bn + ' ping initiated by ' + button.clicker.id)
+      console.log(`${bn} ping initiated by ${button.clicker.id}`)
     }
     else if(button.id === "btn3"){bn=3;pingEmbed=0;
       await button.message.delete();
       await button.reply.defer()
       await button.message.channel.send('<@&824984226885402674>',{embed: emb, })
         .catch(err => console.error(err))
-      console.log(bn + ' ping initiated by ' + button.clicker.id)
+      console.log(`${bn} ping initiated by ${button.clicker.id}`)
     }
     else if(button.id === "btn4"){bn=4;pingEmbed=0;
       await button.message.delete();
       await button.reply.defer()
       await button.message.channel.send('<@&824974978784690198> & <@&824984226885402674>',{embed: emb, })
         .catch(err => console.error(err))
-      console.log(bn + ' ping initiated by ' + button.clicker.id)
+      console.log(`${bn} ping initiated by ${button.clicker.id}`)
     }
     else if(button.id === "btn5"){bn=5;pingEmbed=0;
       await button.message.delete();
       await button.reply.defer()
       await button.message.channel.send('<@&824984224330416191> & <@&824974978784690198> & <@&824984226885402674>',{embed: emb, })
         .catch(err => console.error(err))
-      console.log(bn + ' ping initiated by ' + button.clicker.id)
+      console.log(`${bn} ping initiated by ${button.clicker.id}`)
     }
     else if(button.id === "X"){bn=X;pingEmbed=0;
       await button.message.delete();
       await button.reply.defer()
       await button.message.channel.send("<@!"+button.clicker.id+'> cancelled the operation')
         .catch(err => console.error(err))
-      console.log(bn + ' ping initiated by ' + button.clicker.id)
+      console.log(`${bn} ping initiated by ${button.clicker.id}`)
     }
   }
   else if (pingEmbed && (button.id === "btn1" || button.id === "btn2" || button.id === "btn3" || button.id === "btn4" || button.id === "btn5")){
-    await button.message.channel.send("Waiting for <@!"+user+"> to respond.")
+    await button.message.channel.send(`Waiting for <@!${user} to respond.`)
   }
   
 })
