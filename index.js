@@ -38,6 +38,9 @@ client.on("message", message => {
 
   if (message.content.startsWith('img ') && (message.channel.type === "dm")) {
     let msg = message.content.replace('img', '')
+    if (!msg.includes("media")){
+      message.channel.send("please provide a link which contains word -> { media } \n You can get it after opening img in discord and then sharing or copy link \n If you are unable to find it, please ask for help in <#831088548902862868>")
+    }
     message.channel.send('anonymous confession has been submitted. Destination <#843571449641304084>')
     let emImage = new Discord.MessageEmbed();
     emImage.setTitle("Confession")
