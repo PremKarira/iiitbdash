@@ -21,7 +21,8 @@ client.on("message", message => {
       .setLabel("Hello there!")
       .setID("btn")
       .setStyle("blurple");
-    message.channel.send(`🏓Latency is ${Date.now() - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
+    message.channel.send(`🏓Latency is ${Date.now() - message.createdTimestamp}ms. 
+API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
         .catch(err => console.error(err))
   };
 
@@ -39,7 +40,9 @@ client.on("message", message => {
   if (message.content.startsWith('img ') && (message.channel.type === "dm")) {
     let msg = message.content.replace('img', '')
     if (!msg.includes("media")){
-      message.channel.send("please provide a link which contains word -> { media } \n You can get it after opening img in discord and then sharing or copy link \n If you are unable to find it, please ask for help in <#831088548902862868>")
+      message.channel.send(`please provide a link which contains word -> { media }
+You can get it after opening img in discord and then sharing or copy link
+If you are unable to find it, please ask for help in <#831088548902862868>`)
     }
     message.channel.send('anonymous confession has been submitted. Destination <#843571449641304084>')
     let emImage = new Discord.MessageEmbed();
@@ -171,7 +174,6 @@ client.on("message", message => {
               else{
                 console.log('not cancelled')
               }
-              
             })
             .catch(err => {
               // console.error(err)
@@ -189,9 +191,10 @@ client.on("message", message => {
 client.on('clickButton', async (button) => {
   if(button.id === "btn"){
     await button.reply.defer()
-    button.message.channel.send(`hello <@!${button.clicker.id}>`)
+    button.message.channel.send(`hello <@!${button.clicker.id}>`,)
+    //allowed_mentions = discord.AllowedMentions(replied_user=False)
       .then(msg => {
-        // msg.delete({ timeout: 10000 });
+        msg.delete({ timeout: 10000 });
       })
       .catch(err => console.error(err))
   }
@@ -231,13 +234,6 @@ client.on('clickButton', async (button) => {
         .catch(err => console.error(err))
       console.log(`${bn} ping initiated by ${button.clicker.id}`)
     }
-    else if(button.id === "X"){bn=X;pingEmbed=0;
-      await button.message.delete();
-      await button.reply.defer()
-      await button.message.channel.send("<@!"+button.clicker.id+'> cancelled the operation')
-        .catch(err => console.error(err))
-      console.log(`${bn} ping initiated by ${button.clicker.id}`)
-    }
   }
   else if (pingEmbed && (button.id === "btn1" || button.id === "btn2" || button.id === "btn3" || button.id === "btn4" || button.id === "btn5")){
     await button.message.channel.send(`Waiting for <@!${user}> to respond.`)
@@ -246,7 +242,6 @@ client.on('clickButton', async (button) => {
       })
       .catch(err => console.error(err))
   }
-  
 })
 
 // client.login(config.token)
