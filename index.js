@@ -4,11 +4,11 @@ const client = new Discord.Client()
 require('discord-buttons')(client);
 const disbut = require("discord-buttons");
 
-let emb = new Discord.MessageEmbed();
-let em = new Discord.MessageEmbed();
+let embPingURL = new Discord.MessageEmbed();
+let emPingOptions = new Discord.MessageEmbed();
 let bn =0;
 let user=0;
-let pingEmbed=0;
+let isPingOptionsSent=0;
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`)
@@ -29,12 +29,12 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
   if (message.content.startsWith('confess ') && (message.channel.type === "dm")) {
     let newmsg = message.content.replace('confess', '')
     message.channel.send('anonymous confession has been submitted. Destination <#843571449641304084>')
-    let emConfession = new Discord.MessageEmbed();
-    emConfession.setTitle("Confession")
-    emConfession.setDescription(newmsg)
-    emConfession.setColor('RANDOM')
-    emConfession.setFooter("Use confess <confession> in my dms to make a anonymous confession!")
-    client.channels.cache.get('843571449641304084').send(emConfession)
+    let embConfession = new Discord.MessageEmbed();
+    embConfession.setTitle("Confession")
+    embConfession.setDescription(newmsg)
+    embConfession.setColor('RANDOM')
+    embConfession.setFooter("Use confess <confession> in my dms to make a anonymous confession!")
+    client.channels.cache.get('843571449641304084').send(embConfession)
   }
 
   if (message.content.startsWith('img ') && (message.channel.type === "dm")) {
@@ -45,12 +45,12 @@ You can get it after opening img in discord and then sharing or copy link
 If you are unable to find it, please ask for help in <#831088548902862868>`)
     }
     message.channel.send('anonymous confession has been submitted. Destination <#843571449641304084>')
-    let emImage = new Discord.MessageEmbed();
-    emImage.setTitle("Confession")
-    emImage.setImage(msg)
-    emImage.setColor('RANDOM')
-    emImage.setFooter("Use img <URL> in my dms to post an image anonymously!")
-    client.channels.cache.get('843571449641304084').send(emImage)
+    let embImage = new Discord.MessageEmbed();
+    embImage.setTitle("Confession")
+    embImage.setImage(msg)
+    embImage.setColor('RANDOM')
+    embImage.setFooter("Use img <URL> in my dms to post an image anonymously!")
+    client.channels.cache.get('843571449641304084').send(embImage)
   }
 
   if (message.content === '-tt') {
@@ -60,31 +60,31 @@ If you are unable to find it, please ask for help in <#831088548902862868>`)
         msg.delete({ timeout: 15000 });
       })
       .catch(err => console.error(err))
-    let emb1 = new Discord.MessageEmbed();
-    let emb2 = new Discord.MessageEmbed();
-    let emb3 = new Discord.MessageEmbed();
+    let embECE_TT = new Discord.MessageEmbed();
+    let embCSE_TT = new Discord.MessageEmbed();
+    let embIT_TT = new Discord.MessageEmbed();
 
-    emb1.setTitle("ECE Time-Table")
-    emb1.setColor('RANDOM')
-    emb1.setFooter(`Info requested by ${message.author.tag}`, UserPFP)
-    emb1.setTimestamp()
-    emb1.setImage('https://images-ext-1.discordapp.net/external/07lpSzm4rSwjBupYrLo7xPPgfvOnLoPuFRePz6uzZQI/https/media.discordapp.net/attachments/816314803387367466/871396995191930891/Frame_10ECE_1.png?width=1259&height=669')
+    embECE_TT.setTitle("ECE Time-Table")
+    embECE_TT.setColor('RANDOM')
+    embECE_TT.setFooter(`Info requested by ${message.author.tag}`, UserPFP)
+    embECE_TT.setTimestamp()
+    embECE_TT.setImage('https://images-ext-1.discordapp.net/external/07lpSzm4rSwjBupYrLo7xPPgfvOnLoPuFRePz6uzZQI/https/media.discordapp.net/attachments/816314803387367466/871396995191930891/Frame_10ECE_1.png?width=1259&height=669')
     
-    emb2.setTitle("CSE Time-Table")
-    emb2.setColor('RANDOM')
-    emb2.setFooter(`Info requested by ${message.author.tag}`, UserPFP)
-    emb2.setTimestamp()
-    emb2.setImage('https://images-ext-1.discordapp.net/external/1I7lpfmOrmrnfaMYlgDOzXVi0N2Sc1q8bt0wWzJwOBw/https/media.discordapp.net/attachments/816314803387367466/871396996488003604/Frame_10CSE_1.png?width=1259&height=669')
+    embCSE_TT.setTitle("CSE Time-Table")
+    embCSE_TT.setColor('RANDOM')
+    embCSE_TT.setFooter(`Info requested by ${message.author.tag}`, UserPFP)
+    embCSE_TT.setTimestamp()
+    embCSE_TT.setImage('https://images-ext-1.discordapp.net/external/1I7lpfmOrmrnfaMYlgDOzXVi0N2Sc1q8bt0wWzJwOBw/https/media.discordapp.net/attachments/816314803387367466/871396996488003604/Frame_10CSE_1.png?width=1259&height=669')
     
-    emb3.setTitle("IT Time-Table")
-    emb3.setColor('RANDOM')
-    emb3.setFooter(`Info requested by ${message.author.tag}`, UserPFP)
-    emb3.setTimestamp()
-    emb3.setImage('https://images-ext-2.discordapp.net/external/gJyCVUXLVrk9ZtSK6RvnHjoJ40l-e7pQ3wOQc-zag6Y/https/media.discordapp.net/attachments/816314803387367466/872181270380167218/Frame_59IT.png?width=1426&height=670')
+    embIT_TT.setTitle("IT Time-Table")
+    embIT_TT.setColor('RANDOM')
+    embIT_TT.setFooter(`Info requested by ${message.author.tag}`, UserPFP)
+    embIT_TT.setTimestamp()
+    embIT_TT.setImage('https://images-ext-2.discordapp.net/external/gJyCVUXLVrk9ZtSK6RvnHjoJ40l-e7pQ3wOQc-zag6Y/https/media.discordapp.net/attachments/816314803387367466/872181270380167218/Frame_59IT.png?width=1426&height=670')
     
-    message.channel.send(emb1).catch(err => console.error(err))
-    message.channel.send(emb2).catch(err => console.error(err))
-    message.channel.send(emb3).catch(err => console.error(err))
+    message.channel.send(embECE_TT).catch(err => console.error(err))
+    message.channel.send(embCSE_TT).catch(err => console.error(err))
+    message.channel.send(embIT_TT).catch(err => console.error(err))
   }
 
   if (message.content.includes('https://teams.microsoft.com/l/meetup-join/') ) {
@@ -108,24 +108,30 @@ If you are unable to find it, please ask for help in <#831088548902862868>`)
       // if (url.charAt(ind2-1)==='p' && url.charAt(ind2-2)==='a' && url.charAt(ind2-3)==='T'){
       //   url=url.substr(0,ind2-5)
       // }
+
       var myString = message.content;
       var regExp = myString.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9,@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9,@:%_\+.~#?&//=]*)/g);
+      let url1=regExp[0];
+
       message.delete({ timeout: 2000 })
         .then(msg => console.log(`Deleted message from ${msg.author.username} after 2 seconds in ${msg.channel.id}`))
         .catch(console.error);
+      
       const UserPFP = message.member.user.avatarURL();
+
       user=message.author.id;
-      emb.setTitle("Click here to join the meeting")
-      let url1=regExp[0];
-      emb.setURL(url1)
-      emb.setColor('RANDOM')
-      emb.setFooter(`Requested by ${message.author.tag}`, UserPFP)
-      emb.setTimestamp()
-      // console.log(message.content)
-      em.setTitle("Which branch you want to ping?")
-      em.setDescription("1. ECE \n 2. CSE \n 3. IT \n 4. CSE & IT \n 5. ALL \n type `CANCEL` to cancel the request.")
-      em.setColor('RANDOM')
-      em.setFooter("Type 1-5 in next 15 seconds.")
+      
+      embPingURL.setTitle("Click here to join the meeting")
+      embPingURL.setURL(url1)
+      embPingURL.setColor('RANDOM')
+      embPingURL.setFooter(`Requested by ${message.author.tag}`, UserPFP)
+      embPingURL.setTimestamp()
+
+      emPingOptions.setTitle("Which branch you want to ping?")
+      emPingOptions.setDescription("1. ECE \n 2. CSE \n 3. IT \n 4. CSE & IT \n 5. ALL \n type `CANCEL` to cancel the request.")
+      emPingOptions.setColor('RANDOM')
+      emPingOptions.setFooter("Type 1-5 in next 15 seconds.")
+      emPingOptions.setTimestamp()
 
       let button1 = new disbut.MessageButton()
         .setLabel("1")
@@ -147,14 +153,17 @@ If you are unable to find it, please ask for help in <#831088548902862868>`)
         .setLabel("5")
         .setID("btn5")
         .setStyle("blurple");
-      let buttonX = new disbut.MessageButton()
-        .setLabel("Wanna cancel the request?")
-        .setID("btnX")
-        .setStyle("blurple");
+
+      // buttonX removed bcoz discord limit of 5 buttons per row
+      // moreover it wont look good if we add it in another row.  
+      // let buttonX = new disbut.MessageButton()
+      //   .setLabel("Wanna cancel the request?")
+      //   .setID("btnX")
+      //   .setStyle("blurple");
       
-      message.channel.send("", {embed: em, buttons: [button1, button2, button3, button4, button5]})
+      message.channel.send("", {embed: emPingOptions, buttons: [button1, button2, button3, button4, button5]})
         .then(msg => {
-          pingEmbed=1;
+          isPingOptionsSent=1;
           msg.delete({ timeout: 15000 })
             .catch(err => {
               console.error(`button ${bn} pressed, msg already deleted`)
@@ -198,44 +207,44 @@ client.on('clickButton', async (button) => {
       })
       .catch(err => console.error(err))
   }
-  if(button.clicker.id === user && pingEmbed){
-    if(button.id === "btn1"){bn=1;pingEmbed=0;
+  if(button.clicker.id === user && isPingOptionsSent){
+    if(button.id === "btn1"){bn=1;isPingOptionsSent=0;
       await button.message.delete();
       await button.reply.defer()
-      await button.message.channel.send('<@&824984224330416191>',{embed: emb, })
+      await button.message.channel.send('<@&824984224330416191>',{embed: embPingURL, })
         .catch(err => console.error(err))
       console.log(`${bn} ping initiated by ${button.clicker.id}`)
     }
-    else if(button.id === "btn2"){bn=2;pingEmbed=0;
+    else if(button.id === "btn2"){bn=2;isPingOptionsSent=0;
       await button.message.delete();
       await button.reply.defer()
-      await button.message.channel.send('<@&824974978784690198>',{embed: emb, })
+      await button.message.channel.send('<@&824974978784690198>',{embed: embPingURL, })
         .catch(err => console.error(err))
       console.log(`${bn} ping initiated by ${button.clicker.id}`)
     }
-    else if(button.id === "btn3"){bn=3;pingEmbed=0;
+    else if(button.id === "btn3"){bn=3;isPingOptionsSent=0;
       await button.message.delete();
       await button.reply.defer()
-      await button.message.channel.send('<@&824984226885402674>',{embed: emb, })
+      await button.message.channel.send('<@&824984226885402674>',{embed: embPingURL, })
         .catch(err => console.error(err))
       console.log(`${bn} ping initiated by ${button.clicker.id}`)
     }
-    else if(button.id === "btn4"){bn=4;pingEmbed=0;
+    else if(button.id === "btn4"){bn=4;isPingOptionsSent=0;
       await button.message.delete();
       await button.reply.defer()
-      await button.message.channel.send('<@&824974978784690198> & <@&824984226885402674>',{embed: emb, })
+      await button.message.channel.send('<@&824974978784690198> & <@&824984226885402674>',{embed: embPingURL, })
         .catch(err => console.error(err))
       console.log(`${bn} ping initiated by ${button.clicker.id}`)
     }
-    else if(button.id === "btn5"){bn=5;pingEmbed=0;
+    else if(button.id === "btn5"){bn=5;isPingOptionsSent=0;
       await button.message.delete();
       await button.reply.defer()
-      await button.message.channel.send('<@&824984224330416191> & <@&824974978784690198> & <@&824984226885402674>',{embed: emb, })
+      await button.message.channel.send('<@&824984224330416191> & <@&824974978784690198> & <@&824984226885402674>',{embed: embPingURL, })
         .catch(err => console.error(err))
       console.log(`${bn} ping initiated by ${button.clicker.id}`)
     }
   }
-  else if (pingEmbed && (button.id === "btn1" || button.id === "btn2" || button.id === "btn3" || button.id === "btn4" || button.id === "btn5")){
+  else if (isPingOptionsSent && (button.id === "btn1" || button.id === "btn2" || button.id === "btn3" || button.id === "btn4" || button.id === "btn5")){
     await button.message.channel.send(`Waiting for <@!${user}> to respond.`)
       .then(msg => {
         msg.delete({ timeout: 10000 });
