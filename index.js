@@ -1,5 +1,5 @@
 const Discord = require("discord.js")
-// const config = require('./config.json')
+// const config = require('./config.json') test
 const client = new Discord.Client()
 require('discord-buttons')(client);
 const disbut = require("discord-buttons");
