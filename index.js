@@ -3,6 +3,7 @@ const Discord = require("discord.js")
 const client = new Discord.Client()
 require('discord-buttons')(client);
 const disbut = require("discord-buttons");
+const Converter = require('timestamp-conv');
 
 let embPingURL = new Discord.MessageEmbed();
 let emPingOptions = new Discord.MessageEmbed();
@@ -16,6 +17,7 @@ client.on("ready", () => {
 
 client.on("message", message => {
   if (message.author.bot) return false;
+  
   if (message.content === '<@843537329591418932>' || message.content === '<@!843537329591418932>') {
     let button = new disbut.MessageButton()
       .setLabel("Hello there!")
@@ -23,7 +25,14 @@ client.on("message", message => {
       .setStyle("blurple");
     message.channel.send(`🏓Latency is ${Date.now() - message.createdTimestamp}ms. 
 API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
-        .catch(err => console.error(err))
+      .catch(err => console.error(err))
+  };
+
+  if (message.content === `datetime`) {
+    var timeTargetTemp=message.createdTimestamp
+    var timeTarget = timeTargetTemp.toString().slice(0, -3);
+    message.channel.send(`Your current time is <t:${timeTarget}:F>`)
+      .catch(err => console.error(err))
   };
 
   if (message.content.startsWith('confess ') && (message.channel.type === "dm")) {
