@@ -13,6 +13,11 @@ let isPingOptionsSent=0;
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`)
+  client.user.setPresence({
+    activity: {
+      name: `Playing for IIITB`,
+    },
+  })
 });
 
 client.on("message", message => {
