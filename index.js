@@ -48,6 +48,10 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
         type: 0,
       },
     })
+      .then(
+        message.channel.send(`Successfully changed status`)
+      )
+      .catch(err => console.error(err))
   };
 
   if (message.content.startsWith('confess ') && (message.channel.type === "dm")) {
