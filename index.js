@@ -40,6 +40,16 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
       .catch(err => console.error(err))
   };
 
+  if (message.content.startsWith('setstatus ')){
+    const content = message.content.replace('setstatus ', '')
+    client.user.setPresence({
+      activity: {
+        name: content,
+        type: 0,
+      },
+    })
+  };
+
   if (message.content.startsWith('confess ') && (message.channel.type === "dm")) {
     let newmsg = message.content.replace('confess', '')
     message.channel.send('anonymous confession has been submitted. Destination <#843571449641304084>')
