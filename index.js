@@ -56,7 +56,7 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
 
   if (message.content.startsWith('confess ') && (message.channel.type === "dm")) {
     let newmsg = message.content.replace('confess', '')
-    message.channel.send('anonymous confession has been submitted. Destination <#843571449641304084>')
+    message.channel.send('The way a large portion (not all of you) treat this confession is frustrating and unacceptable.')
     let embConfession = new Discord.MessageEmbed();
     embConfession.setTitle("Confession")
     embConfession.setDescription(newmsg)
@@ -67,12 +67,7 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
 
   if (message.content.startsWith('img ') && (message.channel.type === "dm")) {
     let msg = message.content.replace('img', '')
-    if (!msg.includes("media")){
-      message.channel.send(`please provide a link which contains word -> { media }
-You can get it after opening img in discord and then sharing or copy link
-If you are unable to find it, please ask for help in <#831088548902862868>`)
-    }
-    message.channel.send('anonymous confession has been submitted. Destination <#843571449641304084>')
+    message.channel.send('The way a large portion (not all of you) treat this confession is frustrating and unacceptable.')
     let embImage = new Discord.MessageEmbed();
     embImage.setTitle("Confession")
     embImage.setImage(msg)
