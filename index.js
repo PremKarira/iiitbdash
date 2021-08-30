@@ -1,5 +1,5 @@
 const Discord = require("discord.js")
-const config = require('./config.json')
+// const config = require('./config.json')
 const client = new Discord.Client()
 // const webhookClient = new WebhookClient({ url: 'https://discord.com/api/webhooks/881983230402773043/BSkW8fBkYAKxpl1PsPdvojK0DTr7jZZwmOe9nE0JtjgCe4lwiG_s-GGEHeEBth50C8Xk' });
 require('discord-buttons')(client);
@@ -64,7 +64,6 @@ client.on("message", message => {
               content: mess,
               username: userTarget,
               avatarURL: user.displayAvatarURL({ format: 'png' }),
-              // embeds: [embed],
             })
           })
           .catch(console.error);
@@ -325,5 +324,5 @@ client.on('clickButton', async (button) => {
   }
 })
 
-client.login(config.token)
-// client.login(process.env.TOKEN)
+// client.login(config.token)
+client.login(process.env.TOKEN)
