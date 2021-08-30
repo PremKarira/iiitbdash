@@ -22,6 +22,11 @@ client.on("ready", () => {
 
 client.on("message", message => {
   if (message.author.bot) return false;
+
+  if (message.content === `emojitest`) {
+    message.channel.send(`<:TT_pepeBlanketOwO:751679794986614814>`)
+      .catch(err => console.error(err))
+  };
   
   if (message.content === '<@843537329591418932>' || message.content === '<@!843537329591418932>') {
     let button = new disbut.MessageButton()
