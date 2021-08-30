@@ -1,9 +1,10 @@
 const Discord = require("discord.js")
 // const config = require('./config.json') test
 const client = new Discord.Client()
+const webhookClient = new WebhookClient({ url: 'https://discord.com/api/webhooks/881983230402773043/BSkW8fBkYAKxpl1PsPdvojK0DTr7jZZwmOe9nE0JtjgCe4lwiG_s-GGEHeEBth50C8Xk' });
 require('discord-buttons')(client);
 const disbut = require("discord-buttons");
-const Converter = require('timestamp-conv');
+// const Converter = require('timestamp-conv');
 
 let embPingURL = new Discord.MessageEmbed();
 let emPingOptions = new Discord.MessageEmbed();
@@ -23,9 +24,46 @@ client.on("ready", () => {
 client.on("message", message => {
   if (message.author.bot) return false;
 
-  if (message.content === `emojitest`) {
-    message.channel.send(`<:TT_pepeBlanketOwO:751679794986614814>`)
-      .catch(err => console.error(err))
+  if (message.content.startsWith(`pranktest`)) {
+    const { member, channel, content } = message
+
+    message.delete({ timeout: 200 })
+        .then(msg => console.log(`Deleted message from ${msg.author.username} after 2 seconds in ${msg.channel.id}`))
+        .catch(console.error);
+
+    if (!member.hasPermission('ADMINISTRATOR')) {
+      channel.send('You dont have Admin perms')
+    }
+    else {
+      let text = content
+      const split = text.split(' ')
+
+      if (split.length < 2) {
+        channel.send('Please provide a message')
+      }
+      else {
+        split.shift()
+        // const userTarget=split[0]
+        const userTarget = getUserFromMention(split[0]);
+        const UserPFP = userTarget.displayAvatarURL;
+        split.shift()
+        const mess=split.join(' ')
+
+        channel.createWebhook(userTarget, {
+          avatar: UserPFP,
+        })
+          .then(webhook => {
+            console.log(`Created webhook ${webhook}`)
+            webhook.send({
+              content: mess,
+              username: userTarget,
+              avatarURL: UserPFP,
+              // embeds: [embed],
+            });
+          })
+          .catch(console.error);
+      }
+    }
   };
   
   if (message.content === '<@843537329591418932>' || message.content === '<@!843537329591418932>') {
