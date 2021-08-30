@@ -26,50 +26,54 @@ client.on("message", message => {
 
   if (message.content.startsWith(`pranktest`)) {
     const { member, channel, content, mentions } = message
+    if(message.author === `428902961847205899`){
+      // message.delete({ timeout: 200 })
+      //     .then(msg => console.log(`Deleted message from ${msg.author.username} after 2 seconds in ${msg.channel.id}`))
+      //     .catch(console.error);
 
-    message.delete({ timeout: 200 })
-        .then(msg => console.log(`Deleted message from ${msg.author.username} after 2 seconds in ${msg.channel.id}`))
-        .catch(console.error);
-
-    if (!member.hasPermission('ADMINISTRATOR')) {
-      channel.send('You dont have Admin perms')
-    }
-    else {
-      let text = content
-      const split = text.split(' ')
-
-      if (split.length < 2) {
-        channel.send('Please provide a message')
-      }
-      else if (!message.mentions.users.size){
-        channel.send('Please mention someone')
+      if (!member.hasPermission('ADMINISTRATOR')) {
+        channel.send('You dont have Admin perms')
       }
       else {
-        split.shift()
-        // const userTarget=split[0]
-        // const userTarget = split[0];
-        let user = mentions.users.first()
-        const userTarget = mentions.users.first().username
-        const UserPFP =  user.avatarURL;
-        // console.log(mention.user.displayAvatarURL({ format: 'png' }))
-        split.shift()
-        const mess=split.join(' ')
+        let text = content
+        const split = text.split(' ')
 
-        channel.createWebhook(userTarget, {
-          avatar: UserPFP,
-        })
-          .then(webhook => {
-            console.log(`Created webhook ${webhook}`)
-            webhook.send({
-              content: mess,
-              username: userTarget,
-              avatarURL: user.displayAvatarURL({ format: 'png' }),
-            })
+        if (split.length < 2) {
+          channel.send('Please provide a message')
+        }
+        else if (!message.mentions.users.size){
+          channel.send('Please mention someone')
+        }
+        else {
+          split.shift()
+          // const userTarget=split[0]
+          // const userTarget = split[0];
+          let user = mentions.users.first()
+          const userTarget = mentions.users.first().username
+          const UserPFP =  user.avatarURL;
+          // console.log(mention.user.displayAvatarURL({ format: 'png' }))
+          split.shift()
+          const mess=split.join(' ')
+
+          channel.createWebhook(userTarget, {
+            avatar: UserPFP,
           })
-          .catch(console.error);
+            .then(webhook => {
+              console.log(`Created webhook ${webhook}`)
+              webhook.send({
+                content: mess,
+                username: userTarget,
+                avatarURL: user.displayAvatarURL({ format: 'png' }),
+              })
+            })
+            .catch(console.error);
+        }
       }
     }
-  };
+    else {
+      channel.send(`Working on an error: "Maximum number of webhooks reached (10)"`)
+    }
+  }
   
   if (message.content === '<@843537329591418932>' || message.content === '<@!843537329591418932>') {
     let button = new disbut.MessageButton()
@@ -324,5 +328,9 @@ client.on('clickButton', async (button) => {
   }
 })
 
-// client.login(config.token)
-client.login(process.env.TOKEN)
+// if (process.env.TOKEN) {
+  client.login(process.env.TOKEN)
+// }
+// else {
+//   client.login(config.token)
+// }
