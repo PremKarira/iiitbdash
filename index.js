@@ -1,5 +1,5 @@
 const Discord = require("discord.js")
-// const config = require('./config.json')
+const config = require('./config.json')
 const client = new Discord.Client()
 // const webhookClient = new WebhookClient({ url: 'https://discord.com/api/webhooks/881983230402773043/BSkW8fBkYAKxpl1PsPdvojK0DTr7jZZwmOe9nE0JtjgCe4lwiG_s-GGEHeEBth50C8Xk' });
 require('discord-buttons')(client);
@@ -25,7 +25,7 @@ client.on("message", message => {
   if (message.author.bot) return false;
 
   if (message.content.startsWith(`pranktest`)) {
-    const { member, channel, content } = message
+    const { member, channel, content, mentions } = message
 
     message.delete({ timeout: 200 })
         .then(msg => console.log(`Deleted message from ${msg.author.username} after 2 seconds in ${msg.channel.id}`))
@@ -41,11 +41,17 @@ client.on("message", message => {
       if (split.length < 2) {
         channel.send('Please provide a message')
       }
+      else if (!message.mentions.users.size){
+        channel.send('Please mention someone')
+      }
       else {
         split.shift()
         // const userTarget=split[0]
-        const userTarget = getUserFromMention(split[0]);
-        const UserPFP = userTarget.displayAvatarURL;
+        // const userTarget = split[0];
+        let user = mentions.users.first()
+        const userTarget = mentions.users.first().username
+        const UserPFP =  user.avatarURL;
+        // console.log(mention.user.displayAvatarURL({ format: 'png' }))
         split.shift()
         const mess=split.join(' ')
 
@@ -57,9 +63,9 @@ client.on("message", message => {
             webhook.send({
               content: mess,
               username: userTarget,
-              avatarURL: UserPFP,
+              avatarURL: user.displayAvatarURL({ format: 'png' }),
               // embeds: [embed],
-            });
+            })
           })
           .catch(console.error);
       }
@@ -319,5 +325,5 @@ client.on('clickButton', async (button) => {
   }
 })
 
-// client.login(config.token)
-client.login(process.env.TOKEN)
+client.login(config.token)
+// client.login(process.env.TOKEN)
