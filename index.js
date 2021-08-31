@@ -9,6 +9,7 @@ let emPingOptions = new Discord.MessageEmbed();
 let bn =0;
 let user=0;
 let isPingOptionsSent=0;
+let prank=0;
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`)
@@ -22,61 +23,58 @@ client.on("ready", () => {
 client.on("message", async message => {
   if (message.author.bot) return false;
 
-  if (message.content.startsWith(`pranktest`)) {
+  if (message.content.startsWith(`prank`)) {
     const { member, channel, content, mentions, author } = message
-    if(author.id === `428902961847205899`){
-      message.delete({ timeout: 200 })
-          .then(msg => console.log(`Deleted message from ${msg.author.username} after 2 seconds in ${msg.channel.id}`))
-          .catch(console.error);
+    message.delete({ timeout: 200 })
+        .then(msg => console.log(`Deleted message from ${msg.author.username} after 2 seconds in ${msg.channel.id}`))
+        .catch(console.error);
+    let text = content
+    const split = text.split(' ')
+    if (split.length < 2) {
+      channel.send('Please provide a message')
+    }
+    else if (!message.mentions.users.size){
+      channel.send('Please mention someone')
+    }
+    else {
+      split.shift()
+      let user = mentions.users.first()
+      const userTarget = mentions.users.first().username
+      split.shift()
+      const mess=split.join(' ')
 
-      if (!member.hasPermission('ADMINISTRATOR')) {
-        channel.send('You dont have Admin perms')
+      const UserPFP = member.user.avatarURL();
+      let embPrank = new Discord.MessageEmbed()
+      embPrank.setTitle(`Prank`)
+      embPrank.setDescription(mess)
+      embPrank.setColor('RANDOM')
+      embPrank.setFooter(`Prank by ${message.author.tag}`, UserPFP)
+      client.channels.cache.get('882261765856059463').send(embPrank)
+
+      const webhooks = await channel.fetchWebhooks();
+      const found = webhooks.find(element => element.name.toLocaleLowerCase('en-US') === `dash`);
+      if(found){
+        const webhook = found;
+        await webhook.send({
+          content: mess,
+          username: userTarget,
+          avatarURL: user.displayAvatarURL({ format: 'png' }),
+        });
       }
       else {
-        let text = content
-        const split = text.split(' ')
-        if (split.length < 2) {
-          channel.send('Please provide a message')
-        }
-        else if (!message.mentions.users.size){
-          channel.send('Please mention someone')
-        }
-        else {
-          split.shift()
-          let user = mentions.users.first()
-          const userTarget = mentions.users.first().username
-          const UserPFP =  user.avatarURL;
-          split.shift()
-          const mess=split.join(' ')
-
-          const webhooks = await channel.fetchWebhooks();
-          if(webhooks.size==0){
-            channel.createWebhook(`DASH`, {
-                avatar: `https://cdn.discordapp.com/attachments/825303485657776150/882247730427224114/Es0lah-VoAADiUA.jpg`,
-              })
-                .then(webhook => {
-                  console.log(`Created webhook ${webhook}`)
-                  webhook.send({
-                    content: mess,
-                    username: userTarget,
-                    avatarURL: user.displayAvatarURL({ format: 'png' }),
-                  })
-                })
-                .catch(console.error);
-          }
-          else {
-            const webhook = webhooks.first();
-            await webhook.send({
+        channel.createWebhook(`dash`, {
+          avatar: `https://cdn.discordapp.com/attachments/825303485657776150/882247730427224114/Es0lah-VoAADiUA.jpg`,
+        })
+          .then(webhook => {
+            console.log(`Created webhook ${webhook}`)
+            webhook.send({
               content: mess,
               username: userTarget,
               avatarURL: user.displayAvatarURL({ format: 'png' }),
-            });
-          } 
-        }
+            })
+          })
+          .catch(console.error);
       }
-    }
-    else {
-      channel.send(`Sorry, failed.`)
     }
   }
   
