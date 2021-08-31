@@ -45,10 +45,27 @@ client.on("message", async message => {
 
       const UserPFP = member.user.avatarURL();
       let embPrank = new Discord.MessageEmbed()
-      embPrank.setTitle(`Prank`)
-      embPrank.setDescription(mess)
+      embPrank.setTitle(`Prank in <#${channel.name}>`)
+      embPrank.setTimestamp()
+      // embPrank.setDescription(mess)
       embPrank.setColor('RANDOM')
-      embPrank.setFooter(`Prank by ${message.author.tag}`, UserPFP)
+      embPrank.setFooter(`Prank by ${message.author.tag} as ${userTarget}`, UserPFP)
+      embPrank.addFields(
+        {
+          name: 'Prank By',
+          value: message.author.tag,
+          inline: true,
+        },
+        {
+          name: 'Targetted user',
+          value: userTarget,
+          inline: true,
+        },
+        {
+          name: 'Message',
+          value: mess,
+        }
+      )
       client.channels.cache.get('882261765856059463').send(embPrank)
 
       const webhooks = await channel.fetchWebhooks();
