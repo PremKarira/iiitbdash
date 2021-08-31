@@ -1,10 +1,8 @@
 const Discord = require("discord.js")
-// const config = require('./config.json')
+const config = require('./config.json')
 const client = new Discord.Client()
-// const webhookClient = new WebhookClient({ url: 'https://discord.com/api/webhooks/881983230402773043/BSkW8fBkYAKxpl1PsPdvojK0DTr7jZZwmOe9nE0JtjgCe4lwiG_s-GGEHeEBth50C8Xk' });
 require('discord-buttons')(client);
 const disbut = require("discord-buttons");
-// const Converter = require('timestamp-conv');
 
 let embPingURL = new Discord.MessageEmbed();
 let emPingOptions = new Discord.MessageEmbed();
@@ -25,11 +23,11 @@ client.on("message", message => {
   if (message.author.bot) return false;
 
   if (message.content.startsWith(`pranktest`)) {
-    const { member, channel, content, mentions } = message
-    if(message.author === `428902961847205899`){
-      // message.delete({ timeout: 200 })
-      //     .then(msg => console.log(`Deleted message from ${msg.author.username} after 2 seconds in ${msg.channel.id}`))
-      //     .catch(console.error);
+    const { member, channel, content, mentions, author } = message
+    if(author.id === `428902961847205899`){
+      message.delete({ timeout: 200 })
+          .then(msg => console.log(`Deleted message from ${msg.author.username} after 2 seconds in ${msg.channel.id}`))
+          .catch(console.error);
 
       if (!member.hasPermission('ADMINISTRATOR')) {
         channel.send('You dont have Admin perms')
@@ -37,7 +35,6 @@ client.on("message", message => {
       else {
         let text = content
         const split = text.split(' ')
-
         if (split.length < 2) {
           channel.send('Please provide a message')
         }
@@ -46,12 +43,9 @@ client.on("message", message => {
         }
         else {
           split.shift()
-          // const userTarget=split[0]
-          // const userTarget = split[0];
           let user = mentions.users.first()
           const userTarget = mentions.users.first().username
           const UserPFP =  user.avatarURL;
-          // console.log(mention.user.displayAvatarURL({ format: 'png' }))
           split.shift()
           const mess=split.join(' ')
 
@@ -329,8 +323,8 @@ client.on('clickButton', async (button) => {
 })
 
 // if (process.env.TOKEN) {
-  client.login(process.env.TOKEN)
+  // client.login(process.env.TOKEN)
 // }
 // else {
-//   client.login(config.token)
+  client.login(config.token)
 // }
