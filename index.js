@@ -241,7 +241,7 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
 
       const UserPFP = member.user.avatarURL();
       let embPrank = new Discord.MessageEmbed()
-      embPrank.setTitle(`Prank in `)
+      embPrank.setTitle(`Prank info`)
       embPrank.setTimestamp()
       // embPrank.setDescription(mess)
       embPrank.setColor('RANDOM')
@@ -277,6 +277,7 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
           avatarURL: user.displayAvatarURL({ format: 'png' }),
         });
         
+        embPrank.setDescription(`Used an existing Webhook`)
         client.channels.cache.get('882261765856059463').send(embPrank)
       }
       else {
@@ -284,13 +285,14 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
           avatar: `https://cdn.discordapp.com/attachments/825303485657776150/882247730427224114/Es0lah-VoAADiUA.jpg`,
         })
           .then(webhook => {
-            console.log(`Created webhook ${webhook}`)
+            // console.log(`Created webhook ${webhook}`)
             webhook.send({
               content: mess,
               username: userTarget,
               avatarURL: user.displayAvatarURL({ format: 'png' }),
             })
             
+            embPrank.setDescription(`New webhook created.`)
             client.channels.cache.get('882261765856059463').send(embPrank)
           })
           .catch(console.error);
