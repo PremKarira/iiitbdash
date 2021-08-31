@@ -1,5 +1,5 @@
 const Discord = require("discord.js")
-const config = require('./config.json')
+// const config = require('./config.json')
 const client = new Discord.Client()
 require('discord-buttons')(client);
 const disbut = require("discord-buttons");
@@ -19,12 +19,12 @@ client.on("ready", () => {
   })
 });
 
-client.on("message", message => {
+client.on("message", async message => {
   if (message.author.bot) return false;
 
   if (message.content.startsWith(`pranktest`)) {
     const { member, channel, content, mentions, author } = message
-    if(author.id === `428902961847205899`){
+    // if(author.id === `428902961847205899`){
       message.delete({ timeout: 200 })
           .then(msg => console.log(`Deleted message from ${msg.author.username} after 2 seconds in ${msg.channel.id}`))
           .catch(console.error);
@@ -49,24 +49,35 @@ client.on("message", message => {
           split.shift()
           const mess=split.join(' ')
 
-          channel.createWebhook(userTarget, {
-            avatar: UserPFP,
-          })
-            .then(webhook => {
-              console.log(`Created webhook ${webhook}`)
-              webhook.send({
-                content: mess,
-                username: userTarget,
-                avatarURL: user.displayAvatarURL({ format: 'png' }),
+          const webhooks = await channel.fetchWebhooks();
+          if(webhooks.size==0){
+            channel.createWebhook(`DASH`, {
+                avatar: `https://cdn.discordapp.com/attachments/825303485657776150/882247730427224114/Es0lah-VoAADiUA.jpg`,
               })
-            })
-            .catch(console.error);
+                .then(webhook => {
+                  console.log(`Created webhook ${webhook}`)
+                  webhook.send({
+                    content: mess,
+                    username: userTarget,
+                    avatarURL: user.displayAvatarURL({ format: 'png' }),
+                  })
+                })
+                .catch(console.error);
+          }
+          else {
+            const webhook = webhooks.first();
+            await webhook.send({
+              content: mess,
+              username: userTarget,
+              avatarURL: user.displayAvatarURL({ format: 'png' }),
+            });
+          } 
         }
       }
-    }
-    else {
-      channel.send(`Working on an error: "Maximum number of webhooks reached (10)"`)
-    }
+    // }
+    // else {
+    //   channel.send(`Working on an error: "Maximum number of webhooks reached (10)"`)
+    // }
   }
   
   if (message.content === '<@843537329591418932>' || message.content === '<@!843537329591418932>') {
@@ -323,8 +334,8 @@ client.on('clickButton', async (button) => {
 })
 
 // if (process.env.TOKEN) {
-  // client.login(process.env.TOKEN)
+  client.login(process.env.TOKEN)
 // }
 // else {
-  client.login(config.token)
+  // client.login(config.token)
 // }
