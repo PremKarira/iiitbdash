@@ -24,7 +24,7 @@ client.on("message", async message => {
 
   if (message.content.startsWith(`pranktest`)) {
     const { member, channel, content, mentions, author } = message
-    // if(author.id === `428902961847205899`){
+    if(author.id === `428902961847205899`){
       message.delete({ timeout: 200 })
           .then(msg => console.log(`Deleted message from ${msg.author.username} after 2 seconds in ${msg.channel.id}`))
           .catch(console.error);
@@ -74,10 +74,10 @@ client.on("message", async message => {
           } 
         }
       }
-    // }
-    // else {
-    //   channel.send(`Working on an error: "Maximum number of webhooks reached (10)"`)
-    // }
+    }
+    else {
+      channel.send(`Sorry, failed.`)
+    }
   }
   
   if (message.content === '<@843537329591418932>' || message.content === '<@!843537329591418932>') {
