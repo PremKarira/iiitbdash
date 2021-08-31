@@ -22,78 +22,6 @@ client.on("ready", () => {
 
 client.on("message", async message => {
   if (message.author.bot) return false;
-
-  if (message.content.startsWith(`prank`)) {
-    const { member, channel, content, mentions, author } = message
-    message.delete({ timeout: 200 })
-        .then(msg => console.log(`Deleted message from ${msg.author.username} after 2 seconds in ${msg.channel.id}`))
-        .catch(console.error);
-    let text = content
-    const split = text.split(' ')
-    if (split.length < 2) {
-      channel.send('Please provide a message')
-    }
-    else if (!message.mentions.users.size){
-      channel.send('Please mention someone')
-    }
-    else {
-      split.shift()
-      let user = mentions.users.first()
-      const userTarget = mentions.users.first().username
-      split.shift()
-      const mess=split.join(' ')
-
-      const UserPFP = member.user.avatarURL();
-      let embPrank = new Discord.MessageEmbed()
-      embPrank.setTitle(`Prank in <#${channel.name}>`)
-      embPrank.setTimestamp()
-      // embPrank.setDescription(mess)
-      embPrank.setColor('RANDOM')
-      embPrank.setFooter(`Prank by ${message.author.tag} as ${userTarget}`, UserPFP)
-      embPrank.addFields(
-        {
-          name: 'Prank By',
-          value: message.author.tag,
-          inline: true,
-        },
-        {
-          name: 'Targetted user',
-          value: userTarget,
-          inline: true,
-        },
-        {
-          name: 'Message',
-          value: mess,
-        }
-      )
-      client.channels.cache.get('882261765856059463').send(embPrank)
-
-      const webhooks = await channel.fetchWebhooks();
-      const found = webhooks.find(element => element.name.toLocaleLowerCase('en-US') === `dash`);
-      if(found){
-        const webhook = found;
-        await webhook.send({
-          content: mess,
-          username: userTarget,
-          avatarURL: user.displayAvatarURL({ format: 'png' }),
-        });
-      }
-      else {
-        channel.createWebhook(`dash`, {
-          avatar: `https://cdn.discordapp.com/attachments/825303485657776150/882247730427224114/Es0lah-VoAADiUA.jpg`,
-        })
-          .then(webhook => {
-            console.log(`Created webhook ${webhook}`)
-            webhook.send({
-              content: mess,
-              username: userTarget,
-              avatarURL: user.displayAvatarURL({ format: 'png' }),
-            })
-          })
-          .catch(console.error);
-      }
-    }
-  }
   
   if (message.content === '<@843537329591418932>' || message.content === '<@!843537329591418932>') {
     let button = new disbut.MessageButton()
@@ -289,6 +217,85 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
           console.error(err)
         })
     }  
+  }
+
+  if (message.content.startsWith(`prank`)) {
+    const { member, channel, content, mentions, author } = message
+    message.delete({ timeout: 200 })
+        .then(msg => console.log(`Deleted message from ${msg.author.username} after 2 seconds in ${msg.channel.id}`))
+        .catch(console.error);
+    let text = content
+    const split = text.split(' ')
+    if (split.length < 2) {
+      channel.send('Please provide a message')
+    }
+    else if (!message.mentions.users.size){
+      channel.send('Please mention someone')
+    }
+    else {
+      split.shift()
+      let user = mentions.users.first()
+      const userTarget = mentions.users.first().username
+      split.shift()
+      const mess=split.join(' ')
+
+      const UserPFP = member.user.avatarURL();
+      let embPrank = new Discord.MessageEmbed()
+      embPrank.setTitle(`Prank in `)
+      embPrank.setTimestamp()
+      // embPrank.setDescription(mess)
+      embPrank.setColor('RANDOM')
+      embPrank.setFooter(`Prank by ${message.author.tag} as ${userTarget}`, UserPFP)
+      embPrank.addFields(
+        {
+          name: 'Prank By',
+          value: message.author.tag,
+          inline: true,
+        },
+        {
+          name: 'Targetted user',
+          value: userTarget,
+          inline: true,
+        },
+        {
+          name: 'Action channel',
+          value: `<#${channel.id}>`,
+        },
+        {
+          name: 'Message',
+          value: mess,
+        }
+      )
+
+      const webhooks = await channel.fetchWebhooks();
+      const found = webhooks.find(element => element.name.toLocaleLowerCase('en-US') === `dash`);
+      if(found){
+        const webhook = found;
+        await webhook.send({
+          content: mess,
+          username: userTarget,
+          avatarURL: user.displayAvatarURL({ format: 'png' }),
+        });
+        
+        client.channels.cache.get('882261765856059463').send(embPrank)
+      }
+      else {
+        channel.createWebhook(`dash`, {
+          avatar: `https://cdn.discordapp.com/attachments/825303485657776150/882247730427224114/Es0lah-VoAADiUA.jpg`,
+        })
+          .then(webhook => {
+            console.log(`Created webhook ${webhook}`)
+            webhook.send({
+              content: mess,
+              username: userTarget,
+              avatarURL: user.displayAvatarURL({ format: 'png' }),
+            })
+            
+            client.channels.cache.get('882261765856059463').send(embPrank)
+          })
+          .catch(console.error);
+      }
+    }
   }
 });
 
