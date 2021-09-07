@@ -40,60 +40,92 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
       .catch(err => console.error(err))
   };
 
+  if (message.content === `log`) {
+    console.log(message.channel);
+  };
+
   if (message.content.startsWith("--cloneherefrom") && message.author.id === `428902961847205899`) {
-    function reverseArr(input) {
-      var ret = new Array;
-      for(var i = input.length-1; i >= 0; i--) {
-          ret.push(input[i]);
+    const { channel,content } = message
+    let text = content.slice(16);
+    const split = text.split(' ')
+    if (split.length === 2) {
+      const sourcee=split[0];
+      firstID=split[1];
+      const arr=[];
+      var i=0;
+      var temp=11;
+      var fetched = await client.channels.cache.get(sourcee).messages.fetch({limit: 100});
+      fetched.forEach(element => {
+          arr[i]=element;i++;
+        });
+        
+      temp=fetched.last().id;
+      while(1){
+        if(temp==firstID) {
+          break;
+        }
+        fetched = await client.channels.cache.get(sourcee).messages.fetch({
+          limit: 100, // Amount of messages to be fetched in the channel
+          before: temp,
+        });
+        fetched.forEach(element => {
+          arr[i]=element;i++;
+        });
+        temp=fetched.last().id;
       }
-      return ret;
-    }
-    const { channel } = message
-    const sourcee=message.content.slice(16);
-    
-    // const fetched=client.channels.cache.get(sourcee);
-    // // console.log(fetched.messages);
-    // const msgArrTemp = await fetched.messages.fetch;
-    // const msgArr=reverseArr(msgArrTemp);
+      // // console.log(fetched.messages);
+      // const msgArrTemp = await fetched.messages.fetch;
+      // const msgArr=reverseArr(msgArrTemp);
 
-    const fetched = await client.channels.cache.get(sourcee).messages.fetch({limit: 100});
-    const arr=[];
-    var i=0;;
-    fetched.forEach(element => {
-      arr[i]=element;i++;
-    });
-    const webhooks1 = await channel.fetchWebhooks();
-    const found1 = webhooks1.find(element => element.name.toLocaleLowerCase('en-US') === `dash`);
-    for (var i = arr.length- 1; i >= 0; i--)
-    { 
-      if(!arr[i].content) {
-        found1.send({
-          content: "no content, media or embed maybe",
-          username: arr[i].author.username,
-          avatarURL: arr[i].author.displayAvatarURL({ format: 'png' }),
-        })
-      }
-      else{
-        found1.send({
-          content: arr[i].content,
-          username: arr[i].author.username,
-          avatarURL: arr[i].author.displayAvatarURL({ format: 'png' }),
-        })
-      }
-    }
+      // const fetched = await client.channels.cache.get(sourcee).messages.fetch({limit: 100});
+      // const arr=[];
+      // var i=0;;
+      // fetched.forEach(element => {
+      //   arr[i]=element;i++;
+      // });
+      // message.channel.messages.fetch({
+      //   limit: 5, // Amount of messages to be fetched in the channel
+      //   before: "Snowflake (ID from message to be fetched)",
+      //   after: "Snowflake (ID from message to be fetched)",
+      // });
 
-    // revMsgArr.forEach(element => console.log(element));
-    // revMsgArr.shift();
-    // const fetched2 = reverseArr(fetched);
-    // fetched.forEach(element => console.log(element.author.username));
-    // fetched.forEach(function(elm, ind) {
-    //   console.log(elm[fetched.length - ind]);
-    // });
-    
-    // for(var i = fetched.length-1; i >= 0; i--) {
-    //   const temp=fetched[i];
-    //   console.log(temp.author.username);
-    // }
+      const webhooks1 = await channel.fetchWebhooks();
+      const found1 = webhooks1.find(element => element.name.toLocaleLowerCase('en-US') === `dash`);
+      for (var i = arr.length- 1; i >= 0; i--)
+      { 
+        if(!arr[i].content) {
+          found1.send({
+            content: "no content, media or embed maybe",
+            username: arr[i].author.username,
+            avatarURL: arr[i].author.displayAvatarURL({ format: 'png' }),
+          })
+        }
+        else{
+          found1.send({
+            content: arr[i].content,
+            username: arr[i].author.username,
+            avatarURL: arr[i].author.displayAvatarURL({ format: 'png' }),
+          })
+        }
+      }
+
+
+      // revMsgArr.forEach(element => console.log(element));
+      // revMsgArr.shift();
+      // const fetched2 = reverseArr(fetched);
+      // fetched.forEach(element => console.log(element.author.username));
+      // fetched.forEach(function(elm, ind) {
+      //   console.log(elm[fetched.length - ind]);
+      // });
+      
+      // for(var i = fetched.length-1; i >= 0; i--) {
+      //   const temp=fetched[i];
+      //   console.log(temp.author.username);
+      // }
+    }
+    else{
+      channel.send('Please provide channel ID and then first msg ID'); 
+    }
   };
 
   if (message.content.startsWith('setstatus ')){
