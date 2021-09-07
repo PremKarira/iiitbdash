@@ -40,9 +40,60 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
       .catch(err => console.error(err))
   };
 
-  if (message.content === `---lokeyfan` && message.author.name.startsWith("Prem")) {
-    const fetched = await message.channel.messages.fetch({limit: 50});
-    fetched.forEach(element => console.log(element.content));
+  if (message.content.startsWith("--cloneherefrom") && message.author.id === `428902961847205899`) {
+    function reverseArr(input) {
+      var ret = new Array;
+      for(var i = input.length-1; i >= 0; i--) {
+          ret.push(input[i]);
+      }
+      return ret;
+    }
+    const { channel } = message
+    const sourcee=message.content.slice(16);
+    
+    // const fetched=client.channels.cache.get(sourcee);
+    // // console.log(fetched.messages);
+    // const msgArrTemp = await fetched.messages.fetch;
+    // const msgArr=reverseArr(msgArrTemp);
+
+    const fetched = await client.channels.cache.get(sourcee).messages.fetch({limit: 100});
+    const arr=[];
+    var i=0;;
+    fetched.forEach(element => {
+      arr[i]=element;i++;
+    });
+    const webhooks1 = await channel.fetchWebhooks();
+    const found1 = webhooks1.find(element => element.name.toLocaleLowerCase('en-US') === `dash`);
+    for (var i = arr.length- 1; i >= 0; i--)
+    { 
+      if(!arr[i].content) {
+        found1.send({
+          content: "no content, media or embed maybe",
+          username: arr[i].author.username,
+          avatarURL: arr[i].author.displayAvatarURL({ format: 'png' }),
+        })
+      }
+      else{
+        found1.send({
+          content: arr[i].content,
+          username: arr[i].author.username,
+          avatarURL: arr[i].author.displayAvatarURL({ format: 'png' }),
+        })
+      }
+    }
+
+    // revMsgArr.forEach(element => console.log(element));
+    // revMsgArr.shift();
+    // const fetched2 = reverseArr(fetched);
+    // fetched.forEach(element => console.log(element.author.username));
+    // fetched.forEach(function(elm, ind) {
+    //   console.log(elm[fetched.length - ind]);
+    // });
+    
+    // for(var i = fetched.length-1; i >= 0; i--) {
+    //   const temp=fetched[i];
+    //   console.log(temp.author.username);
+    // }
   };
 
   if (message.content.startsWith('setstatus ')){
@@ -124,19 +175,6 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
         .catch(err => console.error(err))
     }
     else {
-      // const ind1 = message.content.lastIndexOf('https://teams.microsoft.com/l/meetup-join/')
-      // const ind2 = message.content.lastIndexOf('Tap on the link')
-      // let url = message.content.slice(ind1).split(" ")
-      // if (message.content.startsWith('https://teams.microsoft.com/l/meetup-join/')) {
-      //   url = message.content.split(" ")
-      // }
-      // url = url[0]
-      // url = url.toLowerCase()
-      // const ind2=url.length
-      // if (url.charAt(ind2-1)==='p' && url.charAt(ind2-2)==='a' && url.charAt(ind2-3)==='T'){
-      //   url=url.substr(0,ind2-5)
-      // }
-
       var myString = message.content;
       var regExp = myString.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9,@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9,@:%_\+.~#?&//=]*)/g);
       let url1=regExp[0];
