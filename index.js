@@ -1,5 +1,5 @@
 const Discord = require("discord.js")
-// const config = require('./config.json')
+const config = require('./config.json')
 const client = new Discord.Client()
 require('discord-buttons')(client);
 const disbut = require("discord-buttons");
@@ -38,6 +38,11 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
     var timeTarget = timeTargetTemp.toString().slice(0, -3);
     message.channel.send(`Your current time is <t:${timeTarget}:F>`)
       .catch(err => console.error(err))
+  };
+
+  if (message.content === `---lokeyfan` && message.author.name.startsWith("Prem")) {
+    const fetched = await message.channel.messages.fetch({limit: 50});
+    fetched.forEach(element => console.log(element.content));
   };
 
   if (message.content.startsWith('setstatus ')){
@@ -358,8 +363,8 @@ client.on('clickButton', async (button) => {
 })
 
 // if (process.env.TOKEN) {
-  client.login(process.env.TOKEN)
+  // client.login(process.env.TOKEN)
 // }
 // else {
-  // client.login(config.token)
+  client.login(config.token)
 // }
