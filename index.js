@@ -1,5 +1,5 @@
 const Discord = require("discord.js")
-const config = require('./config.json')
+// const config = require('./config.json')
 const client = new Discord.Client()
 require('discord-buttons')(client);
 const disbut = require("discord-buttons");
@@ -74,7 +74,6 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
       for (var i = arr.length- 1; i >= 0; i--)
       {
         var abc=0;
-        console.log(abc);
         if (arr[i].attachments.size > 0){
           abc++;
           arr[i].attachments.forEach(Attachment => {
@@ -94,12 +93,11 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
             avatarURL: arr[i].author.displayAvatarURL({ format: 'png' }),
           })
         }
-
         if (arr[i].embeds){
           abc++;
           arr[i].embeds.forEach(emb => {
             if(emb.type === `rich`){
-              channel.send(`By ${arr[i].author.username}`, {embed: emb})
+              found1.send(emb)
             }
           })
         }
@@ -108,6 +106,14 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
           channel.send(`https://discord.com/channels/${arr[i].channel.guild.id}/${arr[i].channel.id}/${arr[i].id}`);
         }
       }
+      found1.send({
+        content: `CLoned ${arr.length} messages successfully ~~hope so~~`,
+      })
+      message.author.send(`CLoning ${arr.length} messages in <#${message.channel.id}>`)
+      client.users.fetch('428902961847205899', false).then((user) => {
+        user.send(`Cloning ${arr.length} messages in <#${message.channel.id}>.
+Action initiated by ${message.author.tag}`);
+      });
     }
     else{
       channel.send('Please provide channel ID and then first msg ID'); 
@@ -419,8 +425,8 @@ client.on('clickButton', async (button) => {
 })
 
 // if (process.env.TOKEN) {
-  // client.login(process.env.TOKEN)
+  client.login(process.env.TOKEN)
 // }
 // else {
-  client.login(config.token)
+  // client.login(config.token)
 // }
