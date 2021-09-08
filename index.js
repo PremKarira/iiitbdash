@@ -1,5 +1,5 @@
 const Discord = require("discord.js")
-// const config = require('./config.json')
+const config = require('./config.json')
 const client = new Discord.Client()
 require('discord-buttons')(client);
 const disbut = require("discord-buttons");
@@ -39,9 +39,42 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
       .catch(err => console.error(err))
   };
 
+  if(message.content ===`log`){
+    const { channel,content } = message
+    const arr=[];
+    let text = message.channel.id;
+      const sourcee=text;
+        var i=0;
+        var temp=11;
+        var fetched = await client.channels.cache.get(sourcee).messages.fetch({limit: 100});
+        fetched.forEach(element => {
+            arr[i]=element;i++;
+          });
+          
+        temp=fetched.last().id;
+        while(1){
+          fetched = await client.channels.cache.get(sourcee).messages.fetch({
+            limit: 100, // Amount of messages to be fetched in the channel
+            before: temp,
+          });
+          fetched.forEach(element => {
+            arr[i]=element;i++;
+          });
+          if(fetched.last()){
+            temp=fetched.last().id;
+          }
+          else{
+            channel.send(`first msg link https://discord.com/channels/${arr[0].channel.guild.id}/${arr[0].channel.id}/${arr[arr.length-1].id}`);
+            // channel.send(`${arr.length} messages in <#${message.channel.id}>`);
+            break;
+          }
+        }channel.send(`${arr.length} messages in <#${message.channel.id}>`);
+      
+  }
+
   if (message.content.startsWith("--cloneherefrom") && (message.author.id === `428902961847205899` || message.author.id === `539306274936848397`)) {
     const { channel,content } = message
-    let text = content.slice(16);
+    let text = message.channel.id;
       const sourcee=text;
       if(client.channels.cache.get(sourcee)){
         const arr=[];
@@ -65,7 +98,8 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
             temp=fetched.last().id;
           }
           else{
-            console.log(temp)
+            channel.send(`first msg link https://discord.com/channels/${arr[i].channel.guild.id}/${arr[i].channel.id}/${arr[i].id}`);
+            channel.send(`Cloning ${arr.length} messages in <#${message.channel.id}`)
             break;
           }
         }
@@ -435,8 +469,8 @@ client.on('clickButton', async (button) => {
 })
 
 // if (process.env.TOKEN) {
-  client.login(process.env.TOKEN)
+  // client.login(process.env.TOKEN)
 // }
 // else {
-  // client.login(config.token)
+  client.login(config.token)
 // }
