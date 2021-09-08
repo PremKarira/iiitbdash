@@ -1,5 +1,5 @@
 const Discord = require("discord.js")
-// const config = require('./config.json')
+const config = require('./config.json')
 const client = new Discord.Client()
 require('discord-buttons')(client);
 const disbut = require("discord-buttons");
@@ -42,95 +42,92 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
   if (message.content.startsWith("--cloneherefrom") && (message.author.id === `428902961847205899` || message.author.id === `539306274936848397`)) {
     const { channel,content } = message
     let text = content.slice(16);
-    const split = text.split(' ')
-    if (split.length === 2) {
-      const sourcee=split[0];
-      firstID=split[1];
-      const arr=[];
-      var i=0;
-      var temp=11;
-      var fetched = await client.channels.cache.get(sourcee).messages.fetch({limit: 100});
-      fetched.forEach(element => {
-          arr[i]=element;i++;
-        });
-        
-      temp=fetched.last().id;
-      while(1){
-        if(temp==firstID) {
-          break;
-        }
-        fetched = await client.channels.cache.get(sourcee).messages.fetch({
-          limit: 100, // Amount of messages to be fetched in the channel
-          before: temp,
-        });
+      const sourcee=text;
+      if(client.channels.cache.get(sourcee)){
+        const arr=[];
+        var i=0;
+        var temp=11;
+        var fetched = await client.channels.cache.get(sourcee).messages.fetch({limit: 100});
         fetched.forEach(element => {
-          arr[i]=element;i++;
-        });
+            arr[i]=element;i++;
+          });
+          
         temp=fetched.last().id;
-      }
+        while(1){
+          fetched = await client.channels.cache.get(sourcee).messages.fetch({
+            limit: 100, // Amount of messages to be fetched in the channel
+            before: temp,
+          });
+          fetched.forEach(element => {
+            arr[i]=element;i++;
+          });
+          if(fetched.last()){
+            temp=fetched.last().id;
+          }
+          else{
+            console.log(temp)
+            break;
+          }
+        }
 
-      const webhooks1 = await channel.fetchWebhooks();
-      const found1 = webhooks1.find(element => element.name.toLocaleLowerCase('en-US') === `dash`);
-      for (var i = arr.length- 1; i >= 0; i--)
-      {
-        var abc=0;
-        if (arr[i].attachments.size > 0){
-          abc++;
-          arr[i].attachments.forEach(Attachment => {
+        const webhooks1 = await channel.fetchWebhooks();
+        const found1 = webhooks1.find(element => element.name.toLocaleLowerCase('en-US') === `dash`);
+        for (var i = arr.length- 1; i >= 0; i--)
+        {
+          var abc=0;
+          if (arr[i].attachments.size > 0){
+            abc++;
+            arr[i].attachments.forEach(Attachment => {
+              found1.send({
+                content: Attachment.url,
+                username: arr[i].author.username,
+                avatarURL: arr[i].author.displayAvatarURL({ format: 'png' }),
+              })
+            })
+          }
+
+          if(arr[i].content) {
+            abc++;
             found1.send({
-              content: Attachment.url,
+              content: arr[i].content,
               username: arr[i].author.username,
               avatarURL: arr[i].author.displayAvatarURL({ format: 'png' }),
             })
-          })
-        }
+          }
+          if (arr[i].embeds){
+            abc++;
+            arr[i].embeds.forEach(emb => {
+              if(emb.type === `rich`){
+                found1.send({
+                  username: arr[i].author.username,
+                  avatarURL: arr[i].author.displayAvatarURL({ format: 'png' }),
+                  embeds: [emb],
+                })
+              }
+            })
+          }
 
-        if(arr[i].content) {
-          abc++;
-          found1.send({
-            content: arr[i].content,
-            username: arr[i].author.username,
-            avatarURL: arr[i].author.displayAvatarURL({ format: 'png' }),
-          })
+          if(!abc){
+            found1.send({
+              content: `https://discord.com/channels/${arr[i].channel.guild.id}/${arr[i].channel.id}/${arr[i].id}`,
+              username: arr[i].author.username,
+              avatarURL: arr[i].author.displayAvatarURL({ format: 'png' }),
+            })
+            // channel.send(`https://discord.com/channels/${arr[i].channel.guild.id}/${arr[i].channel.id}/${arr[i].id}`);
+          }
         }
-        if (arr[i].embeds){
-          abc++;
-          arr[i].embeds.forEach(emb => {
-            if(emb.type === `rich`){
-              // let embTemp1 = new Discord.MessageEmbed();
-              // embTemp1.setTitle("Jump to message")
-              // embTemp1.setURL(`https://discord.com/channels/${arr[i].channel.guild.id}/${arr[i].channel.id}/${arr[i].id}`)
-              // embTemp1.setColor('RANDOM')
-              found1.send({
-                username: arr[i].author.username,
-                avatarURL: arr[i].author.displayAvatarURL({ format: 'png' }),
-                embeds: [emb],
-              })
-            }
-          })
-        }
-
-        if(!abc){
-          found1.send({
-            content: `https://discord.com/channels/${arr[i].channel.guild.id}/${arr[i].channel.id}/${arr[i].id}`,
-            username: arr[i].author.username,
-            avatarURL: arr[i].author.displayAvatarURL({ format: 'png' }),
-          })
-          // channel.send(`https://discord.com/channels/${arr[i].channel.guild.id}/${arr[i].channel.id}/${arr[i].id}`);
-        }
+        found1.send({
+          content: `CLoned ${arr.length} messages successfully ~~hope so~~`,
+        })
+        message.author.send(`CLoning ${arr.length} messages in <#${message.channel.id}>`)
+        client.users.fetch('428902961847205899', false).then((user) => {
+          user.send(`Cloning ${arr.length} messages in <#${message.channel.id}>.
+  Action initiated by ${message.author.tag}`);
+        });
       }
-      found1.send({
-        content: `CLoned ${arr.length} messages successfully ~~hope so~~`,
-      })
-      message.author.send(`CLoning ${arr.length} messages in <#${message.channel.id}>`)
-      client.users.fetch('428902961847205899', false).then((user) => {
-        user.send(`Cloning ${arr.length} messages in <#${message.channel.id}>.
-Action initiated by ${message.author.tag}`);
-      });
-    }
-    else{
-      channel.send('Please provide channel ID and then first msg ID'); 
-    }
+      else{
+        channel.send('Please provide a valid channel ID');
+      }
   };
 
   if (message.content.startsWith('setstatus ')){
@@ -438,8 +435,8 @@ client.on('clickButton', async (button) => {
 })
 
 // if (process.env.TOKEN) {
-  client.login(process.env.TOKEN)
+  // client.login(process.env.TOKEN)
 // }
 // else {
-  // client.login(config.token)
+  client.login(config.token)
 // }
