@@ -9,7 +9,6 @@ let emPingOptions = new Discord.MessageEmbed();
 let bn =0;
 let user=0;
 let isPingOptionsSent=0;
-let prank=0;
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`)
@@ -40,11 +39,7 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
       .catch(err => console.error(err))
   };
 
-  if (message.content === `log`) {
-    console.log(message.channel);
-  };
-
-  if (message.content.startsWith("--cloneherefrom") && message.author.id === `428902961847205899`) {
+  if (message.content.startsWith("--cloneherefrom") && (message.author.id === `428902961847205899` || message.author.id === `539306274936848397`)) {
     const { channel,content } = message
     let text = content.slice(16);
     const split = text.split(' ')
@@ -73,30 +68,16 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
         });
         temp=fetched.last().id;
       }
-      // // console.log(fetched.messages);
-      // const msgArrTemp = await fetched.messages.fetch;
-      // const msgArr=reverseArr(msgArrTemp);
-
-      // const fetched = await client.channels.cache.get(sourcee).messages.fetch({limit: 100});
-      // const arr=[];
-      // var i=0;;
-      // fetched.forEach(element => {
-      //   arr[i]=element;i++;
-      // });
-      // message.channel.messages.fetch({
-      //   limit: 5, // Amount of messages to be fetched in the channel
-      //   before: "Snowflake (ID from message to be fetched)",
-      //   after: "Snowflake (ID from message to be fetched)",
-      // });
 
       const webhooks1 = await channel.fetchWebhooks();
       const found1 = webhooks1.find(element => element.name.toLocaleLowerCase('en-US') === `dash`);
       for (var i = arr.length- 1; i >= 0; i--)
       {
+        var abc=0;
+        console.log(abc);
         if (arr[i].attachments.size > 0){
-          // console.log(arr[i].attachments.url)
+          abc++;
           arr[i].attachments.forEach(Attachment => {
-            // console.log(`Attachment sent by ${message.author.tag} >> Url: ${Attachment.url}`)
             found1.send({
               content: Attachment.url,
               username: arr[i].author.username,
@@ -106,62 +87,27 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
         }
 
         if(arr[i].content) {
+          abc++;
           found1.send({
             content: arr[i].content,
             username: arr[i].author.username,
             avatarURL: arr[i].author.displayAvatarURL({ format: 'png' }),
           })
         }
-        // else if (arr[i].embeds){
-        //   arr[i].embeds.forEach(emb => {
-        //     if(emb.type === `rich`){
-        //       found1.send({
-        //         content: "The message to send",
-        //         embed: [ emb ],
-        //         username: arr[i].author.username,
-        //         avatarURL: arr[i].author.displayAvatarURL({ format: 'png' }),
-        //       })
-        //     }
-        //   })
-        // }
+
         if (arr[i].embeds){
-          // console.log(arr[i]);break;
+          abc++;
           arr[i].embeds.forEach(emb => {
             if(emb.type === `rich`){
-              // let url = emb.image.url;
-              // let desc = emb.description;
-              // let avatar = emb.author.name;
-              // let avaimg = emb.icon.url;
-              // let foot = emb.footer.text;
-              // let embTemp = new Discord.MessageEmbed()
-              //   .setDescription(desc)
-              //   .setThumbnail(url)
-              //   .setFooter(foot)
-              //   .setAuthor(avatar)
-              found1.send({
-                content: `https://discord.com/channels/${arr[i].channel.guild.id}/${arr[i].channel.id}/${arr[i].id}`,
-                username: arr[i].author.username,
-                avatarURL: arr[i].author.displayAvatarURL({ format: 'png' }),
-                embeds: embTemp,
-              })
+              channel.send(`By ${arr[i].author.username}`, {embed: emb})
             }
           })
         }
+
+        if(!abc){
+          channel.send(`https://discord.com/channels/${arr[i].channel.guild.id}/${arr[i].channel.id}/${arr[i].id}`);
+        }
       }
-
-
-      // revMsgArr.forEach(element => console.log(element));
-      // revMsgArr.shift();
-      // const fetched2 = reverseArr(fetched);
-      // fetched.forEach(element => console.log(element.author.username));
-      // fetched.forEach(function(elm, ind) {
-      //   console.log(elm[fetched.length - ind]);
-      // });
-      
-      // for(var i = fetched.length-1; i >= 0; i--) {
-      //   const temp=fetched[i];
-      //   console.log(temp.author.username);
-      // }
     }
     else{
       channel.send('Please provide channel ID and then first msg ID'); 
