@@ -97,13 +97,26 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
           abc++;
           arr[i].embeds.forEach(emb => {
             if(emb.type === `rich`){
-              found1.send(emb)
+              // let embTemp1 = new Discord.MessageEmbed();
+              // embTemp1.setTitle("Jump to message")
+              // embTemp1.setURL(`https://discord.com/channels/${arr[i].channel.guild.id}/${arr[i].channel.id}/${arr[i].id}`)
+              // embTemp1.setColor('RANDOM')
+              found1.send({
+                username: arr[i].author.username,
+                avatarURL: arr[i].author.displayAvatarURL({ format: 'png' }),
+                embeds: [emb],
+              })
             }
           })
         }
 
         if(!abc){
-          channel.send(`https://discord.com/channels/${arr[i].channel.guild.id}/${arr[i].channel.id}/${arr[i].id}`);
+          found1.send({
+            content: `https://discord.com/channels/${arr[i].channel.guild.id}/${arr[i].channel.id}/${arr[i].id}`,
+            username: arr[i].author.username,
+            avatarURL: arr[i].author.displayAvatarURL({ format: 'png' }),
+          })
+          // channel.send(`https://discord.com/channels/${arr[i].channel.guild.id}/${arr[i].channel.id}/${arr[i].id}`);
         }
       }
       found1.send({
