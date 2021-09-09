@@ -39,10 +39,17 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
       .catch(err => console.error(err))
   };
 
-  if(message.content ===`log`){
+  if(message.content.startsWith(`--channel`)){
     const { channel,content } = message
     const arr=[];
-    let text = message.channel.id;
+    let text=0;
+    if(message.content===`--channel`){
+      text = message.channel.id;
+    }
+    else{
+      text = content.slice(10);
+    }
+    if(client.channels.cache.get(text)){
       const sourcee=text;
         var i=0;
         var temp=11;
@@ -50,31 +57,44 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
         fetched.forEach(element => {
             arr[i]=element;i++;
           });
-          
+
         temp=fetched.last().id;
         while(1){
           fetched = await client.channels.cache.get(sourcee).messages.fetch({
-            limit: 100, // Amount of messages to be fetched in the channel
+            limit: 100,
             before: temp,
           });
           fetched.forEach(element => {
             arr[i]=element;i++;
           });
           if(fetched.last()){
+            channel.send(i)
+              .then(msg => {
+                msg.delete({ timeout: 2000 });
+              })
+              .catch(err => console.error(err))
             temp=fetched.last().id;
           }
           else{
-            channel.send(`first msg link https://discord.com/channels/${arr[0].channel.guild.id}/${arr[0].channel.id}/${arr[arr.length-1].id}`);
-            // channel.send(`${arr.length} messages in <#${message.channel.id}>`);
+            channel.send(i)
+              .then(msg => {
+                msg.delete({ timeout: 2000 });
+              })
+              .catch(err => console.error(err))
             break;
           }
-        }channel.send(`${arr.length} messages in <#${message.channel.id}>`);
-      
+        }
+        channel.send(`first msg link https://discord.com/channels/${arr[0].channel.guild.id}/${arr[0].channel.id}/${arr[arr.length-1].id}`);
+        channel.send(`${arr.length} messages in <#${sourcee}>`);
+    }
+    else{
+      channel.send('Please provide a valid channel ID');
+    }
   }
 
   if (message.content.startsWith("--cloneherefrom") && (message.author.id === `428902961847205899` || message.author.id === `539306274936848397`)) {
     const { channel,content } = message
-    let text = message.channel.id;
+    let text = content.slice(16);
       const sourcee=text;
       if(client.channels.cache.get(sourcee)){
         const arr=[];
@@ -88,18 +108,26 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
         temp=fetched.last().id;
         while(1){
           fetched = await client.channels.cache.get(sourcee).messages.fetch({
-            limit: 100, // Amount of messages to be fetched in the channel
+            limit: 100,
             before: temp,
           });
           fetched.forEach(element => {
             arr[i]=element;i++;
           });
           if(fetched.last()){
+            channel.send(i)
+              .then(msg => {
+                msg.delete({ timeout: 2000 });
+              })
+              .catch(err => console.error(err))
             temp=fetched.last().id;
           }
           else{
-            channel.send(`first msg link https://discord.com/channels/${arr[i].channel.guild.id}/${arr[i].channel.id}/${arr[i].id}`);
-            channel.send(`Cloning ${arr.length} messages in <#${message.channel.id}`)
+            channel.send(i)
+              .then(msg => {
+                msg.delete({ timeout: 2000 });
+              })
+              .catch(err => console.error(err))
             break;
           }
         }
@@ -109,9 +137,10 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
         for (var i = arr.length- 1; i >= 0; i--)
         {
           var abc=0;
+
           if (arr[i].attachments.size > 0){
-            abc++;
             arr[i].attachments.forEach(Attachment => {
+              abc++;
               found1.send({
                 content: Attachment.url,
                 username: arr[i].author.username,
@@ -128,10 +157,11 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
               avatarURL: arr[i].author.displayAvatarURL({ format: 'png' }),
             })
           }
+          
           if (arr[i].embeds){
-            abc++;
             arr[i].embeds.forEach(emb => {
               if(emb.type === `rich`){
+                abc++;
                 found1.send({
                   username: arr[i].author.username,
                   avatarURL: arr[i].author.displayAvatarURL({ format: 'png' }),
