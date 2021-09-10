@@ -38,7 +38,7 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
     message.channel.send(`Your current time is <t:${timeTarget}:F>`)
       .catch(err => console.error(err))
   };
-
+  
   if(message.content.startsWith(`--channel`)){
     const { channel,content } = message
     const arr=[];
@@ -86,6 +86,7 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
         }
         channel.send(`first msg link https://discord.com/channels/${arr[0].channel.guild.id}/${arr[0].channel.id}/${arr[arr.length-1].id}`);
         channel.send(`${arr.length} messages in <#${sourcee}>`);
+        channel.send(`Time taken : ${Date.now() - message.createdTimestamp}ms`);
     }
     else{
       channel.send('Please provide a valid channel ID');
@@ -183,10 +184,12 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
         found1.send({
           content: `CLoned ${arr.length} messages successfully ~~hope so~~`,
         })
+        found1.send({
+          content: `Time taken : ${Date.now() - message.createdTimestamp}ms`,
+        })
         message.author.send(`CLoning ${arr.length} messages in <#${message.channel.id}>`)
         client.users.fetch('428902961847205899', false).then((user) => {
-          user.send(`Cloning ${arr.length} messages in <#${message.channel.id}>.
-  Action initiated by ${message.author.tag}`);
+          user.send(`Cloning ${arr.length} messages in <#${message.channel.id}>.\nAction initiated by ${message.author.tag}`);
         });
       }
       else{
