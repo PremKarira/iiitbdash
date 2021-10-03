@@ -220,7 +220,7 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
     embConfession.setColor('RANDOM')
     embConfession.setFooter("Use confess <confession> in my dms to make a anonymous confession!")
     // client.channels.cache.get('843571449641304084').send(`${message.author.tag}`, {embed: embConfession})
-    client.channels.cache.get('843571449641304084').send({embed: embConfession})
+    client.channels.cache.get('894280321955135599').send({embed: embConfession})
   }
 
   if (message.content.startsWith('img ') && (message.channel.type === "dm")) {
@@ -232,7 +232,7 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
     embImage.setColor('RANDOM')
     embImage.setFooter("Use img <URL> in my dms to post an image anonymously!")
     // client.channels.cache.get('843571449641304084').send(`${message.author.tag}`, {embed: embImage})
-    client.channels.cache.get('843571449641304084').send({embed: embImage})
+    client.channels.cache.get('894280321955135599').send({embed: embImage})
   }
 
   if (message.content === '-tt') {
