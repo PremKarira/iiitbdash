@@ -213,24 +213,26 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
 
   if (message.content.startsWith('confess ') && (message.channel.type === "dm")) {
     let newmsg = message.content.replace('confess', '')
-    message.channel.send('The way a large portion (not all of you) treat this confession thing is frustrating and unacceptable.')
+    // message.channel.send('The way a large portion (not all of you) treat this confession thing is frustrating and unacceptable.')
     let embConfession = new Discord.MessageEmbed();
     embConfession.setTitle("Confession")
     embConfession.setDescription(newmsg)
     embConfession.setColor('RANDOM')
     embConfession.setFooter("Use confess <confession> in my dms to make a anonymous confession!")
-    client.channels.cache.get('843571449641304084').send(`${message.author.tag}`, {embed: embConfession})
+    // client.channels.cache.get('843571449641304084').send(`${message.author.tag}`, {embed: embConfession})
+    client.channels.cache.get('843571449641304084').send({embed: embConfession})
   }
 
   if (message.content.startsWith('img ') && (message.channel.type === "dm")) {
     let msg = message.content.replace('img', '')
-    message.channel.send('The way a large portion (not all of you) treat this confession thing is frustrating and unacceptable.')
+    // message.channel.send('The way a large portion (not all of you) treat this confession thing is frustrating and unacceptable.')
     let embImage = new Discord.MessageEmbed();
     embImage.setTitle("Confession")
     embImage.setImage(msg)
     embImage.setColor('RANDOM')
     embImage.setFooter("Use img <URL> in my dms to post an image anonymously!")
-    client.channels.cache.get('843571449641304084').send(`${message.author.tag}`, {embed: embImage})
+    // client.channels.cache.get('843571449641304084').send(`${message.author.tag}`, {embed: embImage})
+    client.channels.cache.get('843571449641304084').send({embed: embImage})
   }
 
   if (message.content === '-tt') {
