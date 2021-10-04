@@ -1,7 +1,7 @@
 const Discord = require("discord.js")
 const mongo = require('./mongo')
 const schSchema = require('./schemas/sch')
-// const config = require('./config.json')
+const config = require('./config.json')
 const client = new Discord.Client()
 require('discord-buttons')(client);
 const disbut = require("discord-buttons");
@@ -246,7 +246,7 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
     const str = message.content;
     const regex = /\d/;
     const doesItHaveNumber = regex.test(str);
-    if (userr === undefined && doesItHaveNumber) text = message.content.slice(3)
+    if (userr === undefined && doesItHaveNumber) text = message.content.slice(7)
     else if (userr) text = userr.id
     else if (message.content === `--info`) text=message.author.id
     else message.channel.send("Mention someone properly.")
@@ -275,6 +275,9 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
           })
           .catch(console.error);
       }
+    }
+    else{
+      message.channel.send("Can't find this user.")
     }
   };
 
