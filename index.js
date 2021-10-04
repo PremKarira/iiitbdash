@@ -1,7 +1,7 @@
 const Discord = require("discord.js")
 const mongo = require('./mongo')
 const schSchema = require('./schemas/sch')
-const config = require('./config.json')
+// const config = require('./config.json')
 const client = new Discord.Client()
 require('discord-buttons')(client);
 const disbut = require("discord-buttons");
@@ -585,8 +585,8 @@ client.on('clickButton', async (button) => {
 })
 
 // if (process.env.TOKEN) {
-  // client.login(process.env.TOKEN)
+  client.login(process.env.TOKEN)
 // }
 // else {
-  client.login(config.token)
+  // client.login(config.token)
 // }
