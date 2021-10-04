@@ -1,5 +1,7 @@
 const Discord = require("discord.js")
-// const config = require('./config.json')
+const mongo = require('./mongo')
+const schSchema = require('./schemas/sch')
+const config = require('./config.json')
 const client = new Discord.Client()
 require('discord-buttons')(client);
 const disbut = require("discord-buttons");
@@ -9,8 +11,10 @@ let emPingOptions = new Discord.MessageEmbed();
 let bn =0;
 let user=0;
 let isPingOptionsSent=0;
+const vhere=[];
+const cache = {} // id: [result array]
 
-client.on("ready", () => {
+client.on("ready", async () => {
   console.log(`Logged in as ${client.user.tag}!`)
   client.user.setPresence({
     activity: {
@@ -195,6 +199,83 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
       else{
         channel.send('Please provide a valid channel ID');
       }
+  };
+
+  if (message.content.toLowerCase() === "--sch") {
+    const sourcee="824974182491750480";
+  
+    message.channel.send(`starting`);
+  
+    if(client.channels.cache.get(sourcee)){
+      var temp=0;var i=0;
+      var fetched = await client.channels.cache.get(sourcee).messages.fetch({limit: 100});
+      fetched.forEach(element => {
+        i++;
+        if(element.content)
+          vhere[element.author.id]=element;
+      });
+        
+      temp=fetched.last().id;
+      while(1){
+        fetched = await client.channels.cache.get(sourcee).messages.fetch({
+          limit: 100,
+          before: temp,
+        });
+        fetched.forEach(element => {
+          i++; 
+          if(element.content)
+            vhere[element.author.id]=element;
+        });
+        if(fetched.last()){
+          temp=fetched.last().id;
+        }
+        else{      
+          message.channel.send(i);  
+          break;
+        }
+      }
+    }
+  }
+  if (message.content === "--SchM") {
+    console.log("a")
+  }
+  if (message.content.startsWith("--info")) {
+    // const { channel,content } = message
+    const userr = message.mentions.users.first();
+    let text = 0;
+    const str = message.content;
+    const regex = /\d/;
+    const doesItHaveNumber = regex.test(str);
+    if (userr === undefined && doesItHaveNumber) text = message.content.slice(3)
+    else if (userr) text = userr.id
+    else if (message.content === `--info`) text=message.author.id
+    else message.channel.send("Mention someone properly.")
+    if(vhere[text]){
+      const webhooks = await message.channel.fetchWebhooks();
+      const found = webhooks.find(element => element.name.toLocaleLowerCase('en-US') === `dash`);
+      if(found){
+        const webhook = found;
+        await webhook.send({
+          content: vhere[text].content,
+          username: vhere[text].author.username,
+          avatarURL: vhere[text].author.displayAvatarURL({ format: 'png' }),
+        });
+      }
+      else {
+        message.channel.createWebhook(`dash`, {
+          avatar: `https://cdn.discordapp.com/attachments/825303485657776150/882247730427224114/Es0lah-VoAADiUA.jpg`,
+        })
+          .then(webhook => {
+            // console.log(`Created webhook ${webhook}`)
+            webhook.send({
+              content: vhere[text].content,
+              username: vhere[text].author.username,
+              avatarURL: vhere[text].author.displayAvatarURL({ format: 'png' }),
+            })
+          })
+          .catch(console.error);
+      }
+    }
   };
 
   if (message.content.startsWith('setstatus ')){
@@ -504,8 +585,8 @@ client.on('clickButton', async (button) => {
 })
 
 // if (process.env.TOKEN) {
-  client.login(process.env.TOKEN)
+  // client.login(process.env.TOKEN)
 // }
 // else {
-  // client.login(config.token)
+  client.login(config.token)
 // }
