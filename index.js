@@ -1,6 +1,7 @@
 const Discord = require("discord.js")
 const mongo = require('./mongo')
 const schSchema = require('./schemas/sch')
+const ughSchema = require('./schemas/ugh')
 // const config = require('./config.json')
 const client = new Discord.Client()
 require('discord-buttons')(client);
@@ -12,6 +13,7 @@ let bn =0;
 let user=0;
 let isPingOptionsSent=0;
 const vhere=[];
+const todoDSA=[];
 const cache = {} // id: [result array]
 
 client.on("ready", async () => {
@@ -240,6 +242,39 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
     console.log("a")
   }
   if (message.content.startsWith("--info")) {
+    const sourcee="824974182491750480";
+  
+    // message.channel.send(`starting`);
+  
+    if(client.channels.cache.get(sourcee)){
+      var temp=0;var i=0;
+      var fetched = await client.channels.cache.get(sourcee).messages.fetch({limit: 100});
+      fetched.forEach(element => {
+        i++;
+        if(element.content)
+          vhere[element.author.id]=element;
+      });
+        
+      temp=fetched.last().id;
+      while(1){
+        fetched = await client.channels.cache.get(sourcee).messages.fetch({
+          limit: 100,
+          before: temp,
+        });
+        fetched.forEach(element => {
+          i++; 
+          if(element.content)
+            vhere[element.author.id]=element;
+        });
+        if(fetched.last()){
+          temp=fetched.last().id;
+        }
+        else{      
+          // message.channel.send(i);  
+          break;
+        }
+      }
+    }
     // const { channel,content } = message
     const userr = message.mentions.users.first();
     let text = 0;
@@ -530,6 +565,40 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
           .catch(console.error);
       }
     }
+  }
+  
+  if (message.content.startsWith("--idsa")) {
+    let text = message.content.slice(7);
+    todoDSA[message.author.id][++todoDSA[message.author.id][0]]=text;
+    await mongo().then(async (mongoose) => {
+      try {
+        await profileSchema.findOneAndUpdate({
+          _id: `428902961847205899`
+        }, {
+          _id: `428902961847205899`,
+          content: todoDSA,
+        }, {
+          upsert: true
+        })
+      }
+      catch(err) {
+          console.error(err)
+      } 
+      finally {
+        mongoose.connection.close()
+      }
+    })
+  }
+  if (message.content.startsWith("--sdsa")) {
+    await mongo().then(async (mongoose) => {
+      try {
+        data = await ughSchema.find()
+        console.log(data)
+        // cache[fetchedUser.id] = result = data
+      } finally {
+        mongoose.connection.close()
+      }
+    })
   }
 });
 
