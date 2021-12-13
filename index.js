@@ -567,39 +567,39 @@ API Latency is ${Math.round(client.ws.ping)}ms`, {component: button})
     }
   }
   
-  if (message.content.startsWith("--idsa")) {
-    let text = message.content.slice(7);
-    todoDSA[message.author.id][++todoDSA[message.author.id][0]]=text;
-    await mongo().then(async (mongoose) => {
-      try {
-        await profileSchema.findOneAndUpdate({
-          _id: `428902961847205899`
-        }, {
-          _id: `428902961847205899`,
-          content: todoDSA,
-        }, {
-          upsert: true
-        })
-      }
-      catch(err) {
-          console.error(err)
-      } 
-      finally {
-        mongoose.connection.close()
-      }
-    })
-  }
-  if (message.content.startsWith("--sdsa")) {
-    await mongo().then(async (mongoose) => {
-      try {
-        data = await ughSchema.find()
-        console.log(data)
-        // cache[fetchedUser.id] = result = data
-      } finally {
-        mongoose.connection.close()
-      }
-    })
-  }
+  // if (message.content.startsWith("--idsa")) {
+  //   let text = message.content.slice(7);
+  //   todoDSA[message.author.id][++todoDSA[message.author.id][0]]=text;
+  //   await mongo().then(async (mongoose) => {
+  //     try {
+  //       await profileSchema.findOneAndUpdate({
+  //         _id: `428902961847205899`
+  //       }, {
+  //         _id: `428902961847205899`,
+  //         content: todoDSA,
+  //       }, {
+  //         upsert: true
+  //       })
+  //     }
+  //     catch(err) {
+  //         console.error(err)
+  //     } 
+  //     finally {
+  //       mongoose.connection.close()
+  //     }
+  //   })
+  // }
+  // if (message.content.startsWith("--sdsa")) {
+  //   await mongo().then(async (mongoose) => {
+  //     try {
+  //       data = await ughSchema.find()
+  //       console.log(data)
+  //       // cache[fetchedUser.id] = result = data
+  //     } finally {
+  //       mongoose.connection.close()
+  //     }
+  //   })
+  // }
 });
 
 client.on('clickButton', async (button) => {
