@@ -600,7 +600,7 @@ API Latency is ${Math.round(client.ws.ping)}ms`, { component: button })
                                 const member = await message.guild.members.fetch(tempID)
                                     .catch((err) => {
                                         errorCount++;
-                                        s += `#${errorCount} - ${tempID} \n`;
+                                        s += `#${errorCount} \t - \t ${tempID} \t <@${tempID}> \n`;
                                     });
                                 if (member) member.roles.add(addRole);
                                 if (member) member.roles.remove(removeRole);
@@ -608,7 +608,19 @@ API Latency is ${Math.round(client.ws.ping)}ms`, { component: button })
                             }
             }
             message.channel.send(`No. of users who have filled the form successfully = ${iCount} \n`)
-            message.channel.send(s)
+                // message.channel.send(s)
+                // at the top of your file
+
+            // inside a command, event listener, etc.
+            const errorEmbed = new Discord.MessageEmbed()
+                .setColor('RANDOM')
+                .setTitle('Few errors')
+                .setDescription(s)
+                .setThumbnail(message.guild.iconURL())
+                .setTimestamp()
+                .setFooter('IIIT Bhopal | 2025', message.guild.iconURL());
+
+            channel.send({ embeds: [errorEmbed] });
         } else {
             channel.send('Please provide a valid channel ID');
         }
