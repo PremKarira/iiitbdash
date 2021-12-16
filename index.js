@@ -620,7 +620,7 @@ API Latency is ${Math.round(client.ws.ping)}ms`, { component: button })
                 .setTimestamp()
                 .setFooter('IIIT Bhopal | 2025', message.guild.iconURL());
 
-            channel.send({ embeds: [errorEmbed] });
+            message.channel.send(errorEmbed).catch(err => console.error(err))
         } else {
             channel.send('Please provide a valid channel ID');
         }
