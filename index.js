@@ -2,7 +2,7 @@ const Discord = require("discord.js")
 const mongo = require('./mongo')
 const schSchema = require('./schemas/sch')
 const ughSchema = require('./schemas/ugh')
-    // const config = require('./config.json')
+const config = require('./config.json')
 const client = new Discord.Client()
 require('discord-buttons')(client);
 const disbut = require("discord-buttons");
@@ -607,20 +607,21 @@ API Latency is ${Math.round(client.ws.ping)}ms`, { component: button })
                                 if (member) iCount++;
                             }
             }
-            message.channel.send(`No. of users who have filled the form successfully = ${iCount} \n`)
-                // message.channel.send(s)
-                // at the top of your file
-
-            // inside a command, event listener, etc.
+            // message.channel.send(``)
+            // message.channel.send(s)
             const errorEmbed = new Discord.MessageEmbed()
                 .setColor('RANDOM')
-                .setTitle('Few errors')
-                .setDescription(s)
+                .setTitle('Roles assigned successfully')
+                .setDescription(`No. of users who have filled the form successfully = ${iCount} \n`)
                 .setThumbnail(message.guild.iconURL())
+                .addField('Few errors:', s, true)
                 .setTimestamp()
                 .setFooter('IIIT Bhopal | 2025', message.guild.iconURL());
-
-            message.channel.send(errorEmbed).catch(err => console.error(err))
+            let buttonDelete = new disbut.MessageButton()
+                .setLabel("Delete?")
+                .setID("btnD")
+                .setStyle("blurple");
+            message.channel.send(errorEmbed, { component: buttonDelete }).catch(err => console.error(err))
         } else {
             channel.send('Please provide a valid channel ID');
         }
@@ -669,6 +670,11 @@ client.on('clickButton', async(button) => {
             .then(msg => {
                 msg.delete({ timeout: 10000 });
             })
+            .catch(err => console.error(err))
+    }
+    if (button.id === "btnD" && ((button.clicker.id === `428902961847205899`) || (button.clicker.id === `539306274936848397`))) {
+        await button.reply.defer()
+        button.message.delete({ timeout: 1000 })
             .catch(err => console.error(err))
     }
     if (button.clicker.id === user && isPingOptionsSent) {
@@ -723,8 +729,8 @@ client.on('clickButton', async(button) => {
 })
 
 // if (process.env.TOKEN) {
-client.login(process.env.TOKEN)
-    // }
-    // else {
-    // client.login(config.token)
+// client.login(process.env.TOKEN)
+// }
+// else {
+client.login(config.token)
     // }
