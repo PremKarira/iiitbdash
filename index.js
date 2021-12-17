@@ -98,7 +98,7 @@ API Latency is ${Math.round(client.ws.ping)}ms`, { component: button })
         }
     }
 
-    if (message.content.startsWith("--cloneherefrom") && (message.author.id === `428902961847205899` || message.author.id === `539306274936848397`)) {
+    if (message.content.startsWith("--cloneherefrom") && (message.author.id === `428902961847205899` || message.author.id === `539306274936848397` || message.author.id === `767088325441486870`)) {
         const { channel, content } = message
         let text = content.slice(16);
         const sourcee = text;
