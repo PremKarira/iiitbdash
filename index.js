@@ -678,12 +678,12 @@ client.on('clickButton', async(button) => {
             .catch(err => console.error(err))
     }
     if (button.clicker.id === user && isPingOptionsSent) {
-        if (message.guild.id === "783758394166345779") {
+        if (button.message.guild.id === "783758394166345779") {
             let cseRoleID = "824974978784690198";
             let itRoleID = "824984226885402674";
             let eceRoleID = "824984224330416191";
         }
-        if (message.guild.id === "912289366322323507") {
+        if (button.message.guild.id === "912289366322323507") {
             let cseRoleID = "918528541400920135";
             let itRoleID = "918528509436104836";
             let eceRoleID = "918528583100694578";
