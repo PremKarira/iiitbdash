@@ -388,7 +388,15 @@ API Latency is ${Math.round(client.ws.ping)}ms`, { component: button })
 
     if (message.content.includes('https://teams.microsoft.com/l/meetup-join/')) {
         if (!message.channel.name.includes("class-links")) {
-            message.channel.send('do this command only at <#868036126890426368>')
+            let linkID = "";
+            if (button.message.guild.id === "783758394166345779") {
+                linkID = "868036126890426368";
+            }
+            if (button.message.guild.id === "912289366322323507") {
+                linkID = "918528541400920135";
+            }
+
+            message.channel.send(`do this command only at <#${linkID}>`)
                 .then(msg => {
                     msg.delete({ timeout: 5000 });
                 })
