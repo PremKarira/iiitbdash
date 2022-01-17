@@ -43,6 +43,7 @@ API Latency is ${Math.round(client.ws.ping)}ms`, { component: button })
         var timeTarget = timeTargetTemp.toString().slice(0, -3);
         message.channel.send(`Your current time is <t:${timeTarget}:F>`)
             .catch(err => console.error(err))
+            // console.log(message.guild.id)
     };
 
     if (message.content.startsWith(`--channel`)) {
@@ -367,20 +368,19 @@ API Latency is ${Math.round(client.ws.ping)}ms`, { component: button })
         embECE_TT.setColor('RANDOM')
         embECE_TT.setFooter(`Info requested by ${message.author.tag}`, UserPFP)
         embECE_TT.setTimestamp()
-        embECE_TT.setImage('https://images-ext-1.discordapp.net/external/07lpSzm4rSwjBupYrLo7xPPgfvOnLoPuFRePz6uzZQI/https/media.discordapp.net/attachments/816314803387367466/871396995191930891/Frame_10ECE_1.png?width=1259&height=669')
+        embECE_TT.setImage('https://cdn.discordapp.com/attachments/929662857103163443/932552056244408330/ece_4th_sem_2.png')
 
         embCSE_TT.setTitle("CSE Time-Table")
         embCSE_TT.setColor('RANDOM')
         embCSE_TT.setFooter(`Info requested by ${message.author.tag}`, UserPFP)
         embCSE_TT.setTimestamp()
-        embCSE_TT.setImage('https://images-ext-1.discordapp.net/external/1I7lpfmOrmrnfaMYlgDOzXVi0N2Sc1q8bt0wWzJwOBw/https/media.discordapp.net/attachments/816314803387367466/871396996488003604/Frame_10CSE_1.png?width=1259&height=669')
+        embCSE_TT.setImage('https://media.discordapp.net/attachments/929662857103163443/932552056517058610/cse-4.png')
 
         embIT_TT.setTitle("IT Time-Table")
         embIT_TT.setColor('RANDOM')
         embIT_TT.setFooter(`Info requested by ${message.author.tag}`, UserPFP)
         embIT_TT.setTimestamp()
-        embIT_TT.setImage('https://images-ext-2.discordapp.net/external/gJyCVUXLVrk9ZtSK6RvnHjoJ40l-e7pQ3wOQc-zag6Y/https/media.discordapp.net/attachments/816314803387367466/872181270380167218/Frame_59IT.png?width=1426&height=670')
-
+        embIT_TT.setImage('https://media.discordapp.net/attachments/929662857103163443/932552056798081024/it_4th_2.png')
         message.channel.send(embECE_TT).catch(err => console.error(err))
         message.channel.send(embCSE_TT).catch(err => console.error(err))
         message.channel.send(embIT_TT).catch(err => console.error(err))
@@ -678,12 +678,22 @@ client.on('clickButton', async(button) => {
             .catch(err => console.error(err))
     }
     if (button.clicker.id === user && isPingOptionsSent) {
+        if (message.guild.id === "783758394166345779") {
+            let cseRoleID = "824974978784690198";
+            let itRoleID = "824984226885402674";
+            let eceRoleID = "824984224330416191";
+        }
+        if (message.guild.id === "912289366322323507") {
+            let cseRoleID = "918528541400920135";
+            let itRoleID = "918528509436104836";
+            let eceRoleID = "918528583100694578";
+        }
         if (button.id === "btn1") {
             bn = 1;
             isPingOptionsSent = 0;
             await button.message.delete();
             await button.reply.defer()
-            await button.message.channel.send('<@&824984224330416191>', { embed: embPingURL, })
+            await button.message.channel.send(`<@&${eceRoleID}>`, { embed: embPingURL, })
                 .catch(err => console.error(err))
             console.log(`${bn} ping initiated by ${button.clicker.id}`)
         } else if (button.id === "btn2") {
@@ -691,7 +701,7 @@ client.on('clickButton', async(button) => {
             isPingOptionsSent = 0;
             await button.message.delete();
             await button.reply.defer()
-            await button.message.channel.send('<@&824974978784690198>', { embed: embPingURL, })
+            await button.message.channel.send(`<@&${cseRoleID}>`, { embed: embPingURL, })
                 .catch(err => console.error(err))
             console.log(`${bn} ping initiated by ${button.clicker.id}`)
         } else if (button.id === "btn3") {
@@ -699,7 +709,7 @@ client.on('clickButton', async(button) => {
             isPingOptionsSent = 0;
             await button.message.delete();
             await button.reply.defer()
-            await button.message.channel.send('<@&824984226885402674>', { embed: embPingURL, })
+            await button.message.channel.send(`<@&${itRoleID}>`, { embed: embPingURL, })
                 .catch(err => console.error(err))
             console.log(`${bn} ping initiated by ${button.clicker.id}`)
         } else if (button.id === "btn4") {
@@ -707,7 +717,7 @@ client.on('clickButton', async(button) => {
             isPingOptionsSent = 0;
             await button.message.delete();
             await button.reply.defer()
-            await button.message.channel.send('<@&824974978784690198> & <@&824984226885402674>', { embed: embPingURL, })
+            await button.message.channel.send(`<@&${cseRoleID}> & <@&${itRoleID}>`, { embed: embPingURL, })
                 .catch(err => console.error(err))
             console.log(`${bn} ping initiated by ${button.clicker.id}`)
         } else if (button.id === "btn5") {
@@ -715,7 +725,7 @@ client.on('clickButton', async(button) => {
             isPingOptionsSent = 0;
             await button.message.delete();
             await button.reply.defer()
-            await button.message.channel.send('<@&824984224330416191> & <@&824974978784690198> & <@&824984226885402674>', { embed: embPingURL, })
+            await button.message.channel.send(`<@&${eceRoleID}> & <@&${cseRoleID}> & <@&${itRoleID}>`, { embed: embPingURL, })
                 .catch(err => console.error(err))
             console.log(`${bn} ping initiated by ${button.clicker.id}`)
         }
