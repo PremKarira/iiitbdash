@@ -421,9 +421,19 @@ API Latency is ${Math.round(client.ws.ping)}ms`, { component: button })
             embPingURL.setTimestamp()
 
             emPingOptions.setTitle("Which branch you want to ping?")
-            emPingOptions.setDescription("1. ECE \n 2. CSE \n 3. IT \n 4. CSE & IT \n 5. ALL \n type `CANCEL` to cancel the request.")
+            if (message.guild.id === "783758394166345779") {
+                emPingOptions.setDescription("1. ECE \n 2. CSE \n 3. IT \n 4. CSE & IT \n 5. ALL \n type `CANCEL` to cancel the request.")
+            }
+            if (message.guild.id === "912289366322323507") {
+                emPingOptions.setDescription("1. Section 1 \n 2. Section 2 \n 3. ALL \n type `CANCEL` to cancel the request.")
+            }
             emPingOptions.setColor('RANDOM')
-            emPingOptions.setFooter("Type 1-5 in next 15 seconds.")
+            if (message.guild.id === "783758394166345779") {
+                emPingOptions.setFooter("Type 1-5 in next 15 seconds.")
+            }
+            if (message.guild.id === "912289366322323507") {
+                emPingOptions.setFooter("Type 1-3 in next 15 seconds.")
+            }
             emPingOptions.setTimestamp()
 
             let button1 = new disbut.MessageButton()
@@ -453,37 +463,71 @@ API Latency is ${Math.round(client.ws.ping)}ms`, { component: button })
             //   .setLabel("Wanna cancel the request?")
             //   .setID("btnX")
             //   .setStyle("blurple");
+            if (message.guild.id === "783758394166345779") {
+                message.channel.send("", { embed: emPingOptions, buttons: [button1, button2, button3, button4, button5] })
+                    .then(msg => {
+                        isPingOptionsSent = 1;
+                        msg.delete({ timeout: 15000 })
+                            .catch(err => {
+                                console.error(`button ${bn} pressed, msg already deleted`)
+                                bn = 0;
+                            })
+                            // message.reply('No answer after 15 seconds, operation canceled.')
+                        message.channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 15000 })
+                            .then(collected => {
+                                if (collected.first().content.toLowerCase() == 'cancel') {
+                                    message.channel.send('successfully cancelled the request')
+                                        .catch(err => console.error(err))
+                                    msg.delete()
+                                    collected.first().delete()
+                                        .catch(err => console.error(err))
+                                } else {
+                                    console.log('not cancelled')
+                                }
+                            })
+                            .catch(err => {
+                                // console.error(err)
+                                console.log("not cancelled")
+                            });
+                    })
+                    .catch(err => {
+                        // msg.delete()
+                        console.error(err)
+                    })
+            }
+            if (message.guild.id === "912289366322323507") {
+                message.channel.send("", { embed: emPingOptions, buttons: [button1, button2, button3] })
+                    .then(msg => {
+                        isPingOptionsSent = 1;
+                        msg.delete({ timeout: 15000 })
+                            .catch(err => {
+                                console.error(`button ${bn} pressed, msg already deleted`)
+                                bn = 0;
+                            })
+                            // message.reply('No answer after 15 seconds, operation canceled.')
+                        message.channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 15000 })
+                            .then(collected => {
+                                if (collected.first().content.toLowerCase() == 'cancel') {
+                                    message.channel.send('successfully cancelled the request')
+                                        .catch(err => console.error(err))
+                                    msg.delete()
+                                    collected.first().delete()
+                                        .catch(err => console.error(err))
+                                } else {
+                                    console.log('not cancelled')
+                                }
+                            })
+                            .catch(err => {
+                                // console.error(err)
+                                console.log("not cancelled")
+                            });
+                    })
+                    .catch(err => {
+                        // msg.delete()
+                        console.error(err)
+                    })
+            }
 
-            message.channel.send("", { embed: emPingOptions, buttons: [button1, button2, button3, button4, button5] })
-                .then(msg => {
-                    isPingOptionsSent = 1;
-                    msg.delete({ timeout: 15000 })
-                        .catch(err => {
-                            console.error(`button ${bn} pressed, msg already deleted`)
-                            bn = 0;
-                        })
-                        // message.reply('No answer after 15 seconds, operation canceled.')
-                    message.channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 15000 })
-                        .then(collected => {
-                            if (collected.first().content.toLowerCase() == 'cancel') {
-                                message.channel.send('successfully cancelled the request')
-                                    .catch(err => console.error(err))
-                                msg.delete()
-                                collected.first().delete()
-                                    .catch(err => console.error(err))
-                            } else {
-                                console.log('not cancelled')
-                            }
-                        })
-                        .catch(err => {
-                            // console.error(err)
-                            console.log("not cancelled")
-                        });
-                })
-                .catch(err => {
-                    // msg.delete()
-                    console.error(err)
-                })
         }
     }
 
@@ -699,46 +743,76 @@ client.on('clickButton', async(button) => {
             itRoleID = "918528509436104836";
             eceRoleID = "918528583100694578";
         }
-        if (button.id === "btn1") {
-            bn = 1;
-            isPingOptionsSent = 0;
-            await button.message.delete();
-            await button.reply.defer()
-            await button.message.channel.send(`<@&${eceRoleID}>`, { embed: embPingURL, })
-                .catch(err => console.error(err))
-            console.log(`${bn} ping initiated by ${button.clicker.id}`)
-        } else if (button.id === "btn2") {
-            bn = 2;
-            isPingOptionsSent = 0;
-            await button.message.delete();
-            await button.reply.defer()
-            await button.message.channel.send(`<@&${cseRoleID}>`, { embed: embPingURL, })
-                .catch(err => console.error(err))
-            console.log(`${bn} ping initiated by ${button.clicker.id}`)
-        } else if (button.id === "btn3") {
-            bn = 3;
-            isPingOptionsSent = 0;
-            await button.message.delete();
-            await button.reply.defer()
-            await button.message.channel.send(`<@&${itRoleID}>`, { embed: embPingURL, })
-                .catch(err => console.error(err))
-            console.log(`${bn} ping initiated by ${button.clicker.id}`)
-        } else if (button.id === "btn4") {
-            bn = 4;
-            isPingOptionsSent = 0;
-            await button.message.delete();
-            await button.reply.defer()
-            await button.message.channel.send(`<@&${cseRoleID}> & <@&${itRoleID}>`, { embed: embPingURL, })
-                .catch(err => console.error(err))
-            console.log(`${bn} ping initiated by ${button.clicker.id}`)
-        } else if (button.id === "btn5") {
-            bn = 5;
-            isPingOptionsSent = 0;
-            await button.message.delete();
-            await button.reply.defer()
-            await button.message.channel.send(`<@&${eceRoleID}> & <@&${cseRoleID}> & <@&${itRoleID}>`, { embed: embPingURL, })
-                .catch(err => console.error(err))
-            console.log(`${bn} ping initiated by ${button.clicker.id}`)
+        if (button.message.guild.id === "783758394166345779") {
+
+            if (button.id === "btn1") {
+                bn = 1;
+                isPingOptionsSent = 0;
+                await button.message.delete();
+                await button.reply.defer()
+                await button.message.channel.send(`<@&${eceRoleID}>`, { embed: embPingURL, })
+                    .catch(err => console.error(err))
+                console.log(`${bn} ping initiated by ${button.clicker.id}`)
+            } else if (button.id === "btn2") {
+                bn = 2;
+                isPingOptionsSent = 0;
+                await button.message.delete();
+                await button.reply.defer()
+                await button.message.channel.send(`<@&${cseRoleID}>`, { embed: embPingURL, })
+                    .catch(err => console.error(err))
+                console.log(`${bn} ping initiated by ${button.clicker.id}`)
+            } else if (button.id === "btn3") {
+                bn = 3;
+                isPingOptionsSent = 0;
+                await button.message.delete();
+                await button.reply.defer()
+                await button.message.channel.send(`<@&${itRoleID}>`, { embed: embPingURL, })
+                    .catch(err => console.error(err))
+                console.log(`${bn} ping initiated by ${button.clicker.id}`)
+            } else if (button.id === "btn4") {
+                bn = 4;
+                isPingOptionsSent = 0;
+                await button.message.delete();
+                await button.reply.defer()
+                await button.message.channel.send(`<@&${cseRoleID}> & <@&${itRoleID}>`, { embed: embPingURL, })
+                    .catch(err => console.error(err))
+                console.log(`${bn} ping initiated by ${button.clicker.id}`)
+            } else if (button.id === "btn5") {
+                bn = 5;
+                isPingOptionsSent = 0;
+                await button.message.delete();
+                await button.reply.defer()
+                await button.message.channel.send(`<@&${eceRoleID}> & <@&${cseRoleID}> & <@&${itRoleID}>`, { embed: embPingURL, })
+                    .catch(err => console.error(err))
+                console.log(`${bn} ping initiated by ${button.clicker.id}`)
+            }
+        }
+        if (button.message.guild.id === "912289366322323507") {
+            if (button.id === "btn1") {
+                bn = 1;
+                isPingOptionsSent = 0;
+                await button.message.delete();
+                await button.reply.defer()
+                await button.message.channel.send(`<@&918536930700955728>`, { embed: embPingURL, })
+                    .catch(err => console.error(err))
+                console.log(`${bn} ping initiated by ${button.clicker.id}`)
+            } else if (button.id === "btn2") {
+                bn = 2;
+                isPingOptionsSent = 0;
+                await button.message.delete();
+                await button.reply.defer()
+                await button.message.channel.send(`<@&918536979006775356>`, { embed: embPingURL, })
+                    .catch(err => console.error(err))
+                console.log(`${bn} ping initiated by ${button.clicker.id}`)
+            } else if (button.id === "btn3") {
+                bn = 3;
+                isPingOptionsSent = 0;
+                await button.message.delete();
+                await button.reply.defer()
+                await button.message.channel.send(`<@&912291616381882368>`, { embed: embPingURL, })
+                    .catch(err => console.error(err))
+                console.log(`${bn} ping initiated by ${button.clicker.id}`)
+            }
         }
     } else if (isPingOptionsSent && (button.id === "btn1" || button.id === "btn2" || button.id === "btn3" || button.id === "btn4" || button.id === "btn5")) {
         await button.message.channel.send(`Waiting for <@!${user}> to respond.`)
