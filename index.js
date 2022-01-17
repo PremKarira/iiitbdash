@@ -353,7 +353,7 @@ API Latency is ${Math.round(client.ws.ping)}ms`, { component: button })
         client.channels.cache.get('913477976102961233').send({ embed: embImage })
     }
 
-    if (message.content === '-tt') {
+    if (message.content === '-tt' && message.guild.id === "783758394166345779") {
         const UserPFP = message.member.user.avatarURL();
         message.channel.send('Wait for my reply')
             .then(msg => {
