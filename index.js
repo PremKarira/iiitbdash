@@ -2,7 +2,7 @@ const Discord = require("discord.js")
 const mongo = require('./mongo')
 const schSchema = require('./schemas/sch')
 const ughSchema = require('./schemas/ugh')
-    // const config = require('./config.json')
+const config = require('./config.json')
 const client = new Discord.Client()
 require('discord-buttons')(client);
 const disbut = require("discord-buttons");
@@ -420,12 +420,12 @@ API Latency is ${Math.round(client.ws.ping)}ms`, { component: button })
             embPingURL.setFooter(`Requested by ${message.author.tag}`, UserPFP)
             embPingURL.setTimestamp()
 
-            emPingOptions.setTitle("Which branch you want to ping?")
+            emPingOptions.setTitle("Which role you want to ping?")
             if (message.guild.id === "783758394166345779") {
                 emPingOptions.setDescription("1. ECE \n 2. CSE \n 3. IT \n 4. CSE & IT \n 5. ALL \n type `CANCEL` to cancel the request.")
             }
             if (message.guild.id === "912289366322323507") {
-                emPingOptions.setDescription("1. Section 1 \n 2. Section 2 \n 3. ECE \n 4. CSE \n 5. IT \n type `CANCEL` to cancel the request.")
+                emPingOptions.setDescription("1. Section 1 \n 2. Section 2 \n 3. Section 1 & 2 \n 4. ECE \n 5. CSE \n 6. IT \n 7. CSE & IT \n 8. CSE, IT & ECE \n 9. IIIT Bhopal\n  type `CANCEL` to cancel the request.")
             }
             emPingOptions.setColor('RANDOM')
             if (message.guild.id === "783758394166345779") {
@@ -455,6 +455,26 @@ API Latency is ${Math.round(client.ws.ping)}ms`, { component: button })
             let button5 = new disbut.MessageButton()
                 .setLabel("5")
                 .setID("btn5")
+                .setStyle("blurple");
+            let button6 = new disbut.MessageButton()
+                .setLabel("6")
+                .setID("btn6")
+                .setStyle("blurple");
+            let button7 = new disbut.MessageButton()
+                .setLabel("7")
+                .setID("btn7")
+                .setStyle("blurple");
+            let button8 = new disbut.MessageButton()
+                .setLabel("8")
+                .setID("btn8")
+                .setStyle("blurple");
+            let button9 = new disbut.MessageButton()
+                .setLabel("9")
+                .setID("btn9")
+                .setStyle("blurple");
+            let button10 = new disbut.MessageButton()
+                .setLabel("10")
+                .setID("btn10")
                 .setStyle("blurple");
 
             // buttonX removed bcoz discord limit of 5 buttons per row
@@ -496,7 +516,19 @@ API Latency is ${Math.round(client.ws.ping)}ms`, { component: button })
                     })
             }
             if (message.guild.id === "912289366322323507") {
-                message.channel.send("", { embed: emPingOptions, buttons: [button1, button2, button3, button4, button5] })
+                message.channel.send({
+                        embed: emPingOptions,
+                        components: [{
+                                type: 1,
+                                components: [button1, button2, button3, button4, button5],
+                            },
+                            {
+                                type: 1,
+                                components: [button6, button7, button8, button9]
+                            }
+                        ]
+                    })
+                    // message.channel.send("", { embed: emPingOptions, buttons: [button1, button2, button3, button4, button5] })
                     .then(msg => {
                         isPingOptionsSent = 1;
                         msg.delete({ timeout: 15000 })
@@ -788,6 +820,8 @@ client.on('clickButton', async(button) => {
             }
         }
         if (button.message.guild.id === "912289366322323507") {
+            // 1. Section 1 \n 2. Section 2 \n 3. Section 1 & 2 \n 4. ECE \n 5. CSE \n 6. IT \n 7. CSE & IT \n 8. CSE, IT & ECE \n 9. IIIT Bhopal\n  type `CANCEL` to cancel the request.
+
             if (button.id === "btn1") {
                 bn = 1;
                 isPingOptionsSent = 0;
@@ -809,7 +843,7 @@ client.on('clickButton', async(button) => {
                 isPingOptionsSent = 0;
                 await button.message.delete();
                 await button.reply.defer()
-                await button.message.channel.send(`<@&${eceRoleID}>`, { embed: embPingURL, })
+                await button.message.channel.send(`<@&918536930700955728> & <@&918536979006775356>`, { embed: embPingURL, })
                     .catch(err => console.error(err))
                 console.log(`${bn} ping initiated by ${button.clicker.id}`)
             } else if (button.id === "btn4") {
@@ -817,7 +851,7 @@ client.on('clickButton', async(button) => {
                 isPingOptionsSent = 0;
                 await button.message.delete();
                 await button.reply.defer()
-                await button.message.channel.send(`<@&${cseRoleID}>`, { embed: embPingURL, })
+                await button.message.channel.send(`<@&${eceRoleID}>`, { embed: embPingURL, })
                     .catch(err => console.error(err))
                 console.log(`${bn} ping initiated by ${button.clicker.id}`)
             } else if (button.id === "btn5") {
@@ -825,7 +859,39 @@ client.on('clickButton', async(button) => {
                 isPingOptionsSent = 0;
                 await button.message.delete();
                 await button.reply.defer()
+                await button.message.channel.send(`<@&${cseRoleID}>`, { embed: embPingURL, })
+                    .catch(err => console.error(err))
+                console.log(`${bn} ping initiated by ${button.clicker.id}`)
+            } else if (button.id === "btn6") {
+                bn = 6;
+                isPingOptionsSent = 0;
+                await button.message.delete();
+                await button.reply.defer()
                 await button.message.channel.send(`<@&${itRoleID}>`, { embed: embPingURL, })
+                    .catch(err => console.error(err))
+                console.log(`${bn} ping initiated by ${button.clicker.id}`)
+            } else if (button.id === "btn7") {
+                bn = 7;
+                isPingOptionsSent = 0;
+                await button.message.delete();
+                await button.reply.defer()
+                await button.message.channel.send(`<@&${cseRoleID}> & <@&${itRoleID}>`, { embed: embPingURL, })
+                    .catch(err => console.error(err))
+                console.log(`${bn} ping initiated by ${button.clicker.id}`)
+            } else if (button.id === "btn8") {
+                bn = 8;
+                isPingOptionsSent = 0;
+                await button.message.delete();
+                await button.reply.defer()
+                await button.message.channel.send(`<@&${cseRoleID}> , <@&${itRoleID}> & <@&${eceRoleID}>`, { embed: embPingURL, })
+                    .catch(err => console.error(err))
+                console.log(`${bn} ping initiated by ${button.clicker.id}`)
+            } else if (button.id === "btn9") {
+                bn = 9;
+                isPingOptionsSent = 0;
+                await button.message.delete();
+                await button.reply.defer()
+                await button.message.channel.send(`<@&912291616381882368>`, { embed: embPingURL, })
                     .catch(err => console.error(err))
                 console.log(`${bn} ping initiated by ${button.clicker.id}`)
             }
@@ -840,8 +906,8 @@ client.on('clickButton', async(button) => {
 })
 
 // if (process.env.TOKEN) {
-client.login(process.env.TOKEN)
-    // }
-    // else {
-    // client.login(config.token)
+// client.login(process.env.TOKEN)
+// }
+// else {
+client.login(config.token)
     // }
