@@ -425,7 +425,7 @@ API Latency is ${Math.round(client.ws.ping)}ms`, { component: button })
                 emPingOptions.setDescription("1. ECE \n 2. CSE \n 3. IT \n 4. CSE & IT \n 5. ALL \n type `CANCEL` to cancel the request.")
             }
             if (message.guild.id === "912289366322323507") {
-                emPingOptions.setDescription("1. Section 1 \n 2. Section 2 \n 3. ALL \n type `CANCEL` to cancel the request.")
+                emPingOptions.setDescription("1. Section 1 \n 2. Section 2 \n 3. ECE \n 4. CSE \n 5. IT \n type `CANCEL` to cancel the request.")
             }
             emPingOptions.setColor('RANDOM')
             if (message.guild.id === "783758394166345779") {
@@ -496,7 +496,7 @@ API Latency is ${Math.round(client.ws.ping)}ms`, { component: button })
                     })
             }
             if (message.guild.id === "912289366322323507") {
-                message.channel.send("", { embed: emPingOptions, buttons: [button1, button2, button3] })
+                message.channel.send("", { embed: emPingOptions, buttons: [button1, button2, button3, button4, button5] })
                     .then(msg => {
                         isPingOptionsSent = 1;
                         msg.delete({ timeout: 15000 })
@@ -809,7 +809,23 @@ client.on('clickButton', async(button) => {
                 isPingOptionsSent = 0;
                 await button.message.delete();
                 await button.reply.defer()
-                await button.message.channel.send(`<@&912291616381882368>`, { embed: embPingURL, })
+                await button.message.channel.send(`<@&${eceRoleID}>`, { embed: embPingURL, })
+                    .catch(err => console.error(err))
+                console.log(`${bn} ping initiated by ${button.clicker.id}`)
+            } else if (button.id === "btn4") {
+                bn = 4;
+                isPingOptionsSent = 0;
+                await button.message.delete();
+                await button.reply.defer()
+                await button.message.channel.send(`<@&${cseRoleID}>`, { embed: embPingURL, })
+                    .catch(err => console.error(err))
+                console.log(`${bn} ping initiated by ${button.clicker.id}`)
+            } else if (button.id === "btn5") {
+                bn = 5;
+                isPingOptionsSent = 0;
+                await button.message.delete();
+                await button.reply.defer()
+                await button.message.channel.send(`<@&${itRoleID}>`, { embed: embPingURL, })
                     .catch(err => console.error(err))
                 console.log(`${bn} ping initiated by ${button.clicker.id}`)
             }
