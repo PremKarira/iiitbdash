@@ -11,6 +11,7 @@ let embPingURL = new Discord.MessageEmbed();
 let emPingOptions = new Discord.MessageEmbed();
 let bn = 0;
 let user = 0;
+
 let isPingOptionsSent = 0;
 const vhere = [];
 const todoDSA = [];
