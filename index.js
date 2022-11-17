@@ -17,16 +17,33 @@ const vhere = [];
 const todoDSA = [];
 const cache = {} // id: [result array]
 
-const { SlashCommandBuilder } = require('discord.js');
-module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('ping')
-        .setDescription('Replies with Pong!'),
-    async execute(interaction) {
-        const sent = await interaction.reply({ content: 'Pinging...', fetchReply: true });
-        await interaction.editReply(`:ping_pong: Pong!\n:stopwatch: Uptime: ${Math.round(interaction.client.uptime / 60000)} minutes\n:sparkling_heart: Websocket heartbeat: ${interaction.client.ws.ping}ms.\n:round_pushpin: Rountrip Latency: ${sent.createdTimestamp - interaction.createdTimestamp}ms`);
-    },
+// const { SlashCommandBuilder } = require('discord.js');
+// module.exports = {
+//     data: new SlashCommandBuilder()
+//         .setName('ping')
+//         .setDescription('Replies with Pong!'),
+//     async execute(interaction) {
+//         const sent = await interaction.reply({ content: 'Pinging...', fetchReply: true });
+//         await interaction.editReply(`:ping_pong: Pong!\n:stopwatch: Uptime: ${Math.round(interaction.client.uptime / 60000)} minutes\n:sparkling_heart: Websocket heartbeat: ${interaction.client.ws.ping}ms.\n:round_pushpin: Rountrip Latency: ${sent.createdTimestamp - interaction.createdTimestamp}ms`);
+//     },
+// };
+
+const { createInterface } = require('node:readline');
+const { execSync } = require('child_process');
+const fetch = require('node-fetch');
+const ping = {
+  name: 'ping',
+  description: 'yes'
 };
+const commands = [ping];
+client.on('interactionCreate', (interaction) => {
+  if (interaction.commandName === 'ping') {
+    interaction.reply('yes');  
+    await interaction.editReply(`:ping_pong: Pong!\n:stopwatch: Uptime: ${Math.round(interaction.client.uptime / 60000)} minutes\n:sparkling_heart: Websocket heartbeat: ${interaction.client.ws.ping}ms.\n:round_pushpin: Rountrip Latency: ${sent.createdTimestamp - interaction.createdTimestamp}ms`);
+  } else {
+    interaction.reply('this command\'s response has not been added yet!');
+  }
+});
 
 client.on("ready", async() => {
     console.log(`Logged in as ${client.user.tag}!`)
