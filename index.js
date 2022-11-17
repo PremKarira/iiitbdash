@@ -38,8 +38,7 @@ const ping = {
 const commands = [ping];
 client.on('interactionCreate', (interaction) => {
   if (interaction.commandName === 'ping') {
-    interaction.reply('yes');  
-    await interaction.editReply(`:ping_pong: Pong!\n:stopwatch: Uptime: ${Math.round(interaction.client.uptime / 60000)} minutes\n:sparkling_heart: Websocket heartbeat: ${interaction.client.ws.ping}ms.\n:round_pushpin: Rountrip Latency: ${sent.createdTimestamp - interaction.createdTimestamp}ms`);
+    interaction.reply(`:ping_pong: Pong!\n:stopwatch: Uptime: ${Math.round(interaction.client.uptime / 60000)} minutes\n:sparkling_heart: Websocket heartbeat: ${interaction.client.ws.ping}ms.\n:round_pushpin: Rountrip Latency: ${sent.createdTimestamp - interaction.createdTimestamp}ms`);
   } else {
     interaction.reply('this command\'s response has not been added yet!');
   }
