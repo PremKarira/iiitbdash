@@ -12,7 +12,7 @@
   "dependencies": {
     "discord-buttons": "^4.0.0",
     "discord.js": "^12.5.3",
-    "mongoose": "^6.0.8",
+    "mongoose": "^6.11.3",
     "timestamp-conv": "^2.1.0",
     "webhook-discord": "^3.7.8"
   }
